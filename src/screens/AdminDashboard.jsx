@@ -1,6 +1,21 @@
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { FiChevronLeft, FiChevronRight, FiUsers } from "react-icons/fi";
+import { firestore } from "../../firebaseConfig";
+import React, { useMemo, useState, useEffect } from "react";
+import { collection, getDocs } from 'firebase/firestore';
 
 const AdminDashboard = () => {
+  const [customers, setCustomers] = useState(""); // [{}
+  const customerKPI = async () => {
+    const customerRef = collection(firestore, 'customers');
+    const snapshot = await getDocs(customerRef);
+    const totalCustomers = snapshot.size;
+    setCustomers(totalCustomers);
+  };
+
+  useEffect(() => {
+    customerKPI();
+  }, []);
+
   return (
     <div className="w-full bg-admin p-4 min-h-screen text-gray-200">
       <header className="flex justify-between items-center">
@@ -21,7 +36,19 @@ const AdminDashboard = () => {
         <div className="col-span-12 md:col-span-2 lg:col-span-2">
           <div className="grid grid-cols-4 gap-4">
             {/* Replace these placeholders with your KPI components */}
-            <div className="bg-card p-4 rounded-lg">KPI 1</div>
+            <div className="bg-card py-8 px-4 rounded-lg flex items-center ">
+              <div className=" ml-2 bg-cyan-200 p-4 rounded-full items-center">
+                <FiUsers className="text-cyan-700" />
+              </div>
+              <div className="ml-2  justify-center">
+                <div>
+                <div className="font-medium text-2xl">{customers} </div>
+                <div>Customers</div>
+                </div>
+              </div>
+              
+            </div>
+
             <div className="bg-card p-4 rounded-lg">KPI 2</div>
             <div className="bg-card p-4 rounded-lg">KPI 3</div>
             <div className="bg-card p-4 rounded-lg">KPI 4</div>

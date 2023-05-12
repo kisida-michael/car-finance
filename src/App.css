@@ -40,3 +40,20 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Customize scrollbar */
+::-webkit-scrollbar {
+  width: 8px; /* Adjust the width of the scrollbar */
+  height: 8px; /* Adjust the height of the scrollbar */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(169, 169, 169, 0.6); /* Adjust the color of the scrollbar handle */
+  border-radius: 4px; /* Adjust the border radius of the scrollbar handle */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(105, 105, 105, 0.6); /* Adjust the color of the scrollbar handle on hover */
+}

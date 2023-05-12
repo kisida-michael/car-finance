@@ -1,7 +1,31 @@
 import React, { useState } from 'react';
 import { FiHome, FiUsers, FiFileText, FiSettings, FiLogOut, FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import useUserStore from '../../store/userStore';
+import { useLocation } from 'react-router-dom';
+
 import { auth } from '../../../firebaseConfig';
+
+
+const getActiveTabFromLocation = () => {
+  const location = useLocation();
+
+  if (location.pathname.includes('/admin/dash')) {
+    return 'Dashboard';
+  }
+  if (location.pathname.includes('/admin/customers')) {
+    return 'Customers';
+  }
+  if (location.pathname.includes('/admin/invoice')) {
+    return 'Invoice';
+  }
+  if (location.pathname.includes('/admin/settings')) {
+    return 'Settings';
+  }
+  return 'Dashboard';  // Default to 'Dashboard' if no other match.
+};
+
+
 
 const SidebarItem = ({ label, icon: Icon, active, onClick, collapsed }) => (
     <button
@@ -13,8 +37,10 @@ const SidebarItem = ({ label, icon: Icon, active, onClick, collapsed }) => (
     </button>
   );
 const Sidebar = () => {
-  const [activeTab, setActiveTab] = useState('Dashboard');
+  const [activeTab, setActiveTab] = useState(getActiveTabFromLocation());
   const [collapsed, setCollapsed] = useState(false);
+  const currentUser = useUserStore((state) => state.currentUser);
+  console.log(currentUser);
   const navigate = useNavigate();
 
   const handleSignOut = () => {
@@ -78,7 +104,7 @@ const Sidebar = () => {
           collapsed={collapsed}
         />
       </div>
-      {/* <div className="p-4 flex items-center space-x-4">
+      <div className="p-4 flex items-center space-x-4">
         <img className="h-10 w-10 rounded-full" src={currentUser.photoURL} alt="Profile" />
         {!collapsed && (
           <div className={`text-gray-300`}>
@@ -86,7 +112,7 @@ const Sidebar = () => {
             <div>{currentUser.isAdmin ? 'Admin' : 'User'}</div>
           </div>
         )}
-      </div> */}
+      </div>
       <button
         className="p-4 w-full text-left hover:bg-gray-700 transition-colors"
         onClick={handleSignOut}
