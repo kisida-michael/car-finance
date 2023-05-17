@@ -8,7 +8,7 @@ import AdminLayout from "./layouts/admin/AdminLayout";
 import AdminDashboard from "./screens/AdminDashboard";
 import AdminCustomers from "./screens/AdminCustomers";
 import AdminInvoices from "./screens/AdminInvoices";
-import AdminSettings from "./screens/AdminSettings";
+import AdminManagement from "./screens/AdminManagement";
 import UserLayout from "./layouts/users/UserLayout";
 import { auth } from "../firebaseConfig";
 import "./index.css";
@@ -42,6 +42,7 @@ function App() {
   }
 
   return (
+    
     <BrowserRouter>
       <div
       
@@ -57,7 +58,7 @@ function App() {
                 <Route path="/dash" element={<AdminDashboard />} />
                 <Route path="/customers" element={<AdminCustomers />} />
                 <Route path="/invoice" element={<AdminInvoices />} />
-                <Route path="/settings" element={<AdminSettings />} />
+                <Route path="/management" element={<AdminManagement />} />
               </Routes>
             </AdminLayout>
           }

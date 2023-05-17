@@ -19,8 +19,8 @@ const getActiveTabFromLocation = () => {
   if (location.pathname.includes('/admin/invoice')) {
     return 'Invoice';
   }
-  if (location.pathname.includes('/admin/settings')) {
-    return 'Settings';
+  if (location.pathname.includes('/admin/Management')) {
+    return 'Management';
   }
   return 'Dashboard';  // Default to 'Dashboard' if no other match.
 };
@@ -94,12 +94,12 @@ const Sidebar = () => {
           collapsed={collapsed}
         />
         <SidebarItem
-          label="Settings"
+          label="Management"
           icon={FiSettings}
-          active={activeTab === 'Settings'}
+          active={activeTab === 'Management'}
           onClick={() => {
-            setActiveTab('Settings');
-            navigate('/admin/settings');
+            setActiveTab('Management');
+            navigate('/admin/Management');
           }}
           collapsed={collapsed}
         />

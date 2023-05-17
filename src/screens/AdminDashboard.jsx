@@ -1,10 +1,12 @@
-import { FiChevronLeft, FiChevronRight, FiUsers } from "react-icons/fi";
+import { FiChevronLeft, FiChevronRight, FiUsers, FiFile } from "react-icons/fi";
 import { firestore } from "../../firebaseConfig";
 import React, { useMemo, useState, useEffect } from "react";
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs } from "firebase/firestore";
 
 const AdminDashboard = () => {
   const [customers, setCustomers] = useState(""); // [{}
+  const [invoices, setInvoices] = useState(""); // [{}
+
   const customerKPI = async () => {
     const customerRef = collection(firestore, 'customers');
     const snapshot = await getDocs(customerRef);
@@ -12,19 +14,32 @@ const AdminDashboard = () => {
     setCustomers(totalCustomers);
   };
 
+  const invoicesKPI = async () => {
+    const invoiceRef = collection(firestore, 'invoices');
+    const snapshot = await getDocs(invoiceRef);
+    const totalInvoices = snapshot.size;
+    setInvoices(totalInvoices);
+  };
+
   useEffect(() => {
     customerKPI();
+    invoicesKPI();
   }, []);
 
   return (
-    <div className="w-full bg-admin p-4 min-h-screen text-gray-200">
+    <div className="w-full bg-admin p-12 min-h-screen text-gray-200">
+     
+   
       <header className="flex justify-between items-center">
+     
         <h1 className="text-2xl font-semibold">Dashboard</h1>
         <div className="flex items-center">
           <button>
             <FiChevronLeft className="text-xl" />
           </button>
           <span className="mx-2">April 2023</span>
+          
+
           <button>
             <FiChevronRight className="text-xl" />
           </button>
@@ -49,7 +64,18 @@ const AdminDashboard = () => {
               
             </div>
 
-            <div className="bg-card p-4 rounded-lg">KPI 2</div>
+             <div className="bg-card py-8 px-4 rounded-lg flex items-center ">
+              <div className=" ml-2 bg-cyan-200 p-4 rounded-full items-center">
+                <FiFile className="text-cyan-700" />
+              </div>
+              <div className="ml-2  justify-center">
+                <div>
+                <div className="font-medium text-2xl">{invoices} </div>
+                <div>Invoices</div>
+                </div>
+              </div>
+              
+            </div>
             <div className="bg-card p-4 rounded-lg">KPI 3</div>
             <div className="bg-card p-4 rounded-lg">KPI 4</div>
           </div>
