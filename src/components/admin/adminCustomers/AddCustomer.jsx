@@ -43,7 +43,6 @@ const generateRandomPassword = () => {
   return password;
 };
 const AddCustomer = ({ onClose, onAdd }) => {
-
   const slideIn = {
     hidden: { x: "100%" }, // Start from the right
     visible: { x: "0%", transition: { duration: 0.2 } }, // Slide to the left
@@ -197,11 +196,13 @@ const AddCustomer = ({ onClose, onAdd }) => {
 
   return (
     <motion.div
-      variants={slideIn} 
-      initial="hidden" 
-      animate="visible" 
-      exit="exit" className="flex-none lg:w-1/3 w-full  h-screen  bg-card text-gray-200 p-4 flex flex-col px-4 transition-all duration-500 ease-in-out transform">
-      <div className="mt-2 p-4 ">
+      variants={slideIn}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      className="flex-none   max-h-screen  bg-card text-gray-200 p-4 flex flex-col px-4 transition-all duration-500 ease-in-out transform "
+    >
+      <div className="mt-2 p-4 overflow-y-scroll ">
         <h2 className="text-2xl font-semibold mb-8 text-center">
           Add New Customer
         </h2>
@@ -536,8 +537,6 @@ const AddCustomer = ({ onClose, onAdd }) => {
               </div>
             </div>
 
-            
-
             {/* Down Payment */}
             <div className="flex-grow">
               {/* existing input field */}
@@ -817,7 +816,7 @@ const AddCustomer = ({ onClose, onAdd }) => {
           </div>
         </form>
       </div>
-      </motion.div>
+    </motion.div>
   );
 };
 
