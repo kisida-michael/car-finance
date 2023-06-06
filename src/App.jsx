@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import useUserStore from "./store/userStore";
+import SignUp from "./screens/Signup";
 import AdminLogin from "./screens/AdminLogin";
-import Login from "./screens/UserLogin";
+import UserLogin from "./screens/UserLogin";
 
 import AdminLayout from "./layouts/admin/AdminLayout";
 import AdminDashboard from "./screens/AdminDashboard";
@@ -49,7 +50,9 @@ function App() {
       >
         <Routes>
           <Route path="/admin" element={<AdminLogin darkMode={darkMode} />} />
-          <Route path="/login" element={<Login darkMode={darkMode} />} />
+          <Route path="/signup" element={<SignUp/>} />
+
+       
           <Route
           path="/admin/*"
           element={
@@ -64,12 +67,7 @@ function App() {
           }
         />
 
-          <Route
-            path="/user/dash"
-            element={
-              <UserLayout darkMode={darkMode} setDarkMode={setDarkMode} />
-            }
-          />
+        <Route path="/user" element={<UserLogin darkMode={darkMode} />} />
         </Routes>
       </div>
     </BrowserRouter>

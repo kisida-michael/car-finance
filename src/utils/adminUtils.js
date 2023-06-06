@@ -10,3 +10,15 @@ export const formatPhoneNumber = (input) => {
 
   return input;
 };
+
+
+export const validateEmail = (email) => {
+  // Regular expression for email validation
+  const re = /\S+@\S+\.\S+/;
+  return re.test(email);
+};
+
+export const validatePhoneNumber = (phoneNumber) => {
+  const re = /^\(\d{3}\) \d{3}-\d{4}$/;
+  return re.test(String(phoneNumber));
+};
