@@ -11,6 +11,7 @@ import AdminCustomers from "./screens/AdminCustomers";
 import AdminInvoices from "./screens/AdminInvoices";
 import AdminManagement from "./screens/AdminManagement";
 import UserLayout from "./layouts/users/UserLayout";
+import UserLanding from "./screens/UserLanding";
 import { auth } from "../firebaseConfig";
 import "./index.css";
 
@@ -51,6 +52,7 @@ function App() {
         <Routes>
           <Route path="/admin" element={<AdminLogin darkMode={darkMode} />} />
           <Route path="/signup" element={<SignUp/>} />
+          <Route path= "/auto-loan" element= {<UserLanding/>} />
 
        
           <Route
