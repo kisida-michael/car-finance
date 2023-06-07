@@ -12,6 +12,10 @@ import AdminInvoices from "./screens/AdminInvoices";
 import AdminManagement from "./screens/AdminManagement";
 import UserLayout from "./layouts/users/UserLayout";
 import UserLanding from "./screens/UserLanding";
+import UserApplication from "./screens/UserApplication";
+import UserDash from "./screens/UserDash";
+import UserPayment from "./screens/UserPayment";
+
 import { auth } from "../firebaseConfig";
 import "./index.css";
 
@@ -53,6 +57,7 @@ function App() {
           <Route path="/admin" element={<AdminLogin darkMode={darkMode} />} />
           <Route path="/signup" element={<SignUp/>} />
           <Route path= "/auto-loan" element= {<UserLanding/>} />
+          <Route path= "/application" element= {<UserApplication/>} />
 
        
           <Route
@@ -70,6 +75,15 @@ function App() {
         />
 
         <Route path="/user" element={<UserLogin darkMode={darkMode} />} />
+        <Route path = "/user/*" element = {
+        <UserLayout>
+          <Routes>
+            <Route path = "/dash" element = {<UserDash/>} />
+            <Route path = "/application" element = {<UserPayment/>} />
+        
+        </Routes>
+        </UserLayout>
+        } />
         </Routes>
       </div>
     </BrowserRouter>
