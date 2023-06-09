@@ -1,20 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react';
 
 
-const Input = ({ title, value, setValue, type = "text", placeholder = "" }) => {
-    return (
-      <div className="mb-2">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          {title}
-        </label>
-        <input
-          className=" appearance-none border-gray-300 ring-cyan-500 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-cyan-500 " 
-          type={type}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          placeholder={placeholder}
-        />
-      </div>
-    );
+const Input = ({ label, value, onChange, validate, onValidation, type }) => {
+  const [touched, setTouched] = useState(false);
+
+  const handleBlur = () => {
+    setTouched(true);
+    const validationError = validate(value);
+    onValidation(validationError);
   };
-export default Input
+
+  const handleChange = (event) => {
+    onChange(event.target.value);
+    const validationError = validate(event.target.value);
+    onValidation(validationError);
+  };
+
+  const error = validate(value);
+
+  return (
+    <div className="mb-4">
+      <label className="block text-gray-700 text-sm font-bold mb-2">{label}</label>
+      <input
+        value={value}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        type={type}
+        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      />
+      {touched && error && <div className="text-red-500 text-xs italic">{error}</div>}
+    </div>
+  );
+};
+
+export default Input;

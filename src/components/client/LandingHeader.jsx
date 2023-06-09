@@ -6,7 +6,7 @@ const LandingHeader = () => {
 
   const handleSignIn = () => {
     // Navigate to the sign in page. Update with your route.
-    navigate('/signin');
+    navigate('/user');
   }
 
   return (

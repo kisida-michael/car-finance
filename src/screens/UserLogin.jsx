@@ -1,15 +1,28 @@
-import React, { useRef,  } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
-import { auth, provider } from "../../firebaseConfig";
-import useUserStore from '../store/userStore';
-import { useNavigate } from 'react-router-dom';
+import React, { useRef, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { auth, provider, firestore } from "../../firebaseConfig";
+import { doc, getDoc, getDocFromServer } from "firebase/firestore";
 
+import {
+  getAuth,
+  fetchSignInMethodsForEmail,
+  signInWithEmailAndPassword,
+  setPersistence,
+  browserLocalPersistence,
+  signInWithPopup,
+} from "firebase/auth";
+
+import useUserStore from "../store/userStore";
+import { useNavigate } from "react-router-dom";
 const Login = ({ darkMode }) => {
   const emailRef = useRef();
   const passwordRef = useRef();
-  // const { setCurrentUser } = useContext(UserContext);
   const setCurrentUser = useUserStore((state) => state.setCurrentUser);
+  const currentUser = useUserStore((state) => state.currentUser);
+  const authReady = useUserStore((state) => state.authReady);
+
+  const navigate = useNavigate();
 
   const handleEmailPasswordSignIn = async (e) => {
     e.preventDefault();
@@ -17,57 +30,84 @@ const Login = ({ darkMode }) => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    const methods = await auth.fetchSignInMethodsForEmail(email);
-   
-    if (methods.includes('google.com')) {
-      // Re-authenticate the user with the Google account
-      alert("You already have an account with this email using google. Please sign in with your google provider.")
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+
+      // Fetch user data from 'users' collection using the user's UID
+      const userDocRef = doc(firestore, "users", user.uid);
+      const userDocSnapshot = await getDocFromServer(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        const userData = userDocSnapshot.data();
+        console.log("User ID:", user.uid);
+        console.log("User data:", userData);
+        setCurrentUser({
+          ...userCredential.user,
+          uid: userCredential.user.uid,
+          isAdmin: userData.isAdmin,
+        });
+        if (userData.isAdmin) {
+          navigate("/admin/dash");
+        } else {
+          navigate("/user/dash");
+        }
+      } else {
+        console.error(
+          "No user data found in the users collection for UID:",
+          user.uid
+        );
+      }
+
+      return user;
+    } catch (error) {
+      console.error("Error signing in:", error.message);
+      throw error;
     }
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        // Update the user in the UserContext
-        console.log(userCredential.user);
-        setCurrentUser(userCredential.user);
-      })
-      .catch((error) => {
-        console.error("Error signing in with email and password:", error);
-      });
-      auth.setPersistence('local')
   };
+
   const handleGoogleSignIn = async () => {
     try {
       // Sign in with Google
-      const googleResult = await auth.signInWithPopup(provider);
+
+      await setPersistence(auth, browserLocalPersistence);
+
+      const googleResult = await signInWithPopup(auth, provider);
       const googleUser = googleResult.user;
-  
-      // Check if there's an email/password account with the same email
-      const methods = await auth.fetchSignInMethodsForEmail(googleUser.email);
-  
-      if (methods.includes('password')) {
-        // Re-authenticate the user with the Google account
-        const googleCredential = firebase.auth.GoogleAuthProvider.credential(
-          googleResult.credential.idToken
-        );
-        await googleUser.reauthenticateWithCredential(googleCredential);
-  
-        // Ask the user for their password to link the accounts
-        const password = prompt('Enter your password to link your accounts:');
-  
-        // Get the email/password credential
-        const passwordCredential = firebase.auth.EmailAuthProvider.credential(
-          googleUser.email,
-          password
-        );
-  
-        // Link the email/password account with the Google account
-        await googleUser.linkWithCredential(passwordCredential);
-        console.log('Accounts linked successfully');
+      console.log(googleUser);
+
+      const userDocRef = doc(firestore, "users", googleUser.uid);
+      console.log(userDocRef);
+      const userDoc = await getDocFromServer(userDocRef);
+
+      if (userDoc.exists) {
+        const userData = userDoc.data();
+        console.log("handleGoogleSignIn: User data:", {
+          ...googleUser,
+          uid: googleUser.uid,
+          isAdmin: userData.isAdmin,
+        });
+
+        setCurrentUser({
+          ...googleUser,
+          uid: googleUser.uid,
+          isAdmin: userData.isAdmin,
+        });
+        if (userData.isAdmin) {
+          navigate("/admin/dash");
+        } else {
+          navigate("/user/dash");
+        }
+        console.log(currentUser);
       } else {
-        console.log('Google account signed in');
+        console.error("User document not found");
       }
     } catch (error) {
-      console.error('Error signing in with Google:', error);
+      console.error("Error signing in with Google:", error);
     }
   };
   
@@ -77,7 +117,7 @@ const Login = ({ darkMode }) => {
   return (
     <div
       className={`min-h-screen ${
-        darkMode ? 'bg-gray-900' : 'bg-gray-100'
+        darkMode ? 'bg-gray-900' : 'bg-cyan-50'
       } flex items-center justify-center`}
     >
       <div
@@ -88,7 +128,7 @@ const Login = ({ darkMode }) => {
         <div className="p-6">
           <h2
             className={`text-3xl font-semibold ${
-              darkMode ? 'text-white' : 'text-gray-700'
+              darkMode ? 'text-cyan-500' : 'text-cyan-500'
             }`}
           >
             User Portal

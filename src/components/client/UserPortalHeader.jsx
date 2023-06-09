@@ -32,19 +32,19 @@ const UserPortalHeader = () => {
           </div>
         </header>
   
-        <div className="bg-white text-cyan-500 px-40 py-3 shadow-md flex justify-around">
-          <div className="flex items-center cursor-pointer" onClick={() => navigate('/dashboard')}>
-            <FiHome className="mr-2" />
-            <p className="text-sm font-bold uppercase">Dashboard</p>
-          </div>
-          <div className="flex items-center cursor-pointer" onClick={() => navigate('/billing')}>
-            <FiCreditCard className="mr-2" />
-            <p className="text-sm font-bold uppercase">Billing</p>
-          </div>
-          <div className="flex items-center cursor-pointer" onClick={() => navigate('/payment-methods')}>
-            <FiDollarSign className="mr-2" />
-            <p className="text-sm font-bold uppercase">Payment Methods</p>
-          </div>
+        <div className="bg-white text-cyan-500 px-40 py-3 shadow-md flex space-x-4">
+        <div className="flex items-center cursor-pointer" onClick={() => navigate('/user/dash')}>
+        <FiHome className={location.pathname === '/user/dash' ? 'text-cyan-500' : 'text-gray-500 hover:text-cyan-500'} />
+        <p className="text-sm font-bold uppercase">Dashboard</p>
+      </div>
+      <div className="flex items-center cursor-pointer" onClick={() => navigate('/user/billing')}>
+        <FiCreditCard className={location.pathname === '/user/billing' ? 'text-cyan-500' : 'text-gray-500 hover:text-cyan-500'} />
+        <p className="text-sm font-bold uppercase">Billing</p>
+      </div>
+      <div className="flex items-center cursor-pointer" onClick={() => navigate('/user/payment-methods')}>
+        <FiDollarSign className={location.pathname === '/user/payment-methods' ? 'text-cyan-500' : 'text-gray-500 hover:text-cyan-500'} />
+        <p className="text-sm font-bold uppercase">Payment Methods</p>
+      </div>
         </div>
       </div>
     );

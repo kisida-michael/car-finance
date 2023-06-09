@@ -1,49 +1,72 @@
-import React from 'react'
-import {useState } from 'react'
-import Input from './Input'
-const ApplicantInfo = () => {
+import React from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { states } from '../../../../utils/constants';
 
-    const [applicantInfo, setApplicantInfo] = useState({
-        name: "",
-        dob: "",
-        currentAddress: "",
-        city: "",
-        ssn: "",
-        phone: "",
-        zip: "",
-        state: "",
-        rent: "",
-      });
-
-      const fields = [
-        { title: "Name", type: "text", value: applicantInfo.name, setValue: (value) => setApplicantInfo({ ...applicantInfo, name: value }) },
-        { title: "DOB", type: "date", value: applicantInfo.dob, setValue: (value) => setApplicantInfo({ ...applicantInfo, dob: value }) },
-        { title: "Current Address", type: "text", value: applicantInfo.currentAddress, setValue: (value) => setApplicantInfo({ ...applicantInfo, currentAddress: value }) },
-        { title: "City", type: "text", value: applicantInfo.city, setValue: (value) => setApplicantInfo({ ...applicantInfo, city: value }) },
-        { title: "SSN", type: "text", value: applicantInfo.ssn, setValue: (value) => setApplicantInfo({ ...applicantInfo, ssn: value }) },
-        { title: "Phone", type: "text", value: applicantInfo.phone, setValue: (value) => setApplicantInfo({ ...applicantInfo, phone: value }) },
-        { title: "Zip", type: "text", value: applicantInfo.zip, setValue: (value) => setApplicantInfo({ ...applicantInfo, zip: value }) },
-        { title: "State", type: "text", value: applicantInfo.state, setValue: (value) => setApplicantInfo({ ...applicantInfo, state: value }) },
-        { title: "Rent", type: "text", value: applicantInfo.rent, setValue: (value) => setApplicantInfo({ ...applicantInfo, rent: value }) },
-
-      ];
-
-   
-//make a form for the applicant info
-    return (
-    <div className="p-4 bg-gray-100 rounded-md">
-      <h2 className="text-2xl text-cyan-500 mb-4 font-semibold">Applicant Info</h2>
-      {fields.map((field) => (
-        <Input
-          key={field.title}
-          title={field.title}
-          type={field.type}
-          value={field.value}
-          setValue={field.setValue}
-        />
-      ))}
+const ApplicantInfo = ({ formMethodsRef }) => {
+  const methods = useForm({
+    defaultValues: {
+      name: "",
+      dob: "",
+      currentAddress: "",
+      city: "",
+      ssn: "",
+      phone: "",
+      zip: "",
+      state: "",
+      rent: "",
+    },
+    mode: "onBlur",
+  });
+  formMethodsRef.current = methods;
+  const { register, handleSubmit, control, formState: { errors } } = methods;
+  
+  return (
+    <form className="p-4 space-y-4">
+    <h2 className="text-2xl text-cyan-500 mb-4 font-semibold">Applicant Info</h2>
+    <div className="flex flex-col space-y-1">
+      <input {...register("name", { required: "Name is required" })} placeholder="Name" className="border-2 border-gray-200 rounded-md p-2" />
+      {errors.name && <p className="text-red-500">{errors.name.message}</p>}
     </div>
+  
+    <div className="flex flex-col space-y-1">
+      <input {...register("dob", { required: "Date of Birth is required" })} placeholder="Date of Birth" type="date" className="border-2 border-gray-200 rounded-md p-2" />
+      {errors.dob && <p className="text-red-500">{errors.dob.message}</p>}
+    </div>
+  
+    <div className="flex flex-col space-y-1">
+      <input {...register("currentAddress", { required: "Current Address is required" })} placeholder="Current Address" className="border-2 border-gray-200 rounded-md p-2" />
+      {errors.currentAddress && <p className="text-red-500">{errors.currentAddress.message}</p>}
+    </div>
+  
+    {/* Repeat this pattern for the rest of the fields... */}
+    
+    <div className="flex flex-col space-y-1">
+      <Controller 
+        name="state"
+        control={control}
+        rules={{ required: "State is required" }}
+        render={({ field }) => (
+          <select {...field} className="border-2 border-gray-200 rounded-md p-2">
+          <option value="" disabled selected>Select a state</option>
+          {states.map((state) => (
+            <option key={state} value={state}>
+              {state}
+            </option>
+          ))}
+        </select>
+        
+        )}
+      />
+      {errors.state && <p className="text-red-500">{errors.state.message}</p>}
+    </div>
+  
+    <div className="flex flex-col space-y-1">
+      <input {...register("rent", { required: "Rent is required" })} placeholder="Rent" className="border-2 border-gray-200 rounded-md p-2" />
+      {errors.rent && <p className="text-red-500">{errors.rent.message}</p>}
+    </div>
+  </form>
+  
   );
-}
+};
 
-export default ApplicantInfo
+export default ApplicantInfo;
