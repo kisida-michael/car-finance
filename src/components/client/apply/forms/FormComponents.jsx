@@ -53,7 +53,15 @@ export const FormInput = ({ name, register, requiredMessage, placeholder, onChan
       {errors[name] && <p className="text-red-500">{errors[name].message}</p>}
     </div>
   );
-
+  export const FileUpload = ({ name, register, requiredMessage, placeholder, errors }) => {
+    return (
+      <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{placeholder}</label>
+        <input type="file" {...register(name, { required: requiredMessage })} className="border-2 border-gray-200 rounded-md p-2" />
+        {errors[name] && <p className="text-red-500">{errors[name].message}</p>}
+      </div>
+    );
+  };
   
 // Continue with the other fields
 // ...
