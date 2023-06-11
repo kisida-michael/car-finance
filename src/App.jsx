@@ -4,6 +4,7 @@ import useUserStore from "./store/userStore";
 import SignUp from "./screens/Signup";
 import AdminLogin from "./screens/AdminLogin";
 import UserLogin from "./screens/UserLogin";
+import { doc, getDoc, getDocFromServer } from "firebase/firestore";
 
 import AdminLayout from "./layouts/admin/AdminLayout";
 import AdminDashboard from "./screens/AdminDashboard";
@@ -16,7 +17,7 @@ import UserApplication from "./screens/UserApplication";
 import UserDash from "./screens/UserDash";
 import UserPayment from "./screens/UserPayment";
 
-import { auth } from "../firebaseConfig";
+import { auth, firestore } from "../firebaseConfig";
 import "./index.css";
 
 function App() {
@@ -25,6 +26,33 @@ function App() {
   const authReady = useUserStore((state) => state.authReady);
 
   const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        // User is signed in
+        const userRef = doc(firestore, "users", user.uid); // Assuming your user's collection is named 'users'
+        const userDocSnapshot = await getDoc(userRef);
+        if (userDocSnapshot.exists()) {
+          const userData = userDocSnapshot.data();
+          setCurrentUser({
+            ...user,
+            uid: user.uid,
+            isAdmin: userData.isAdmin,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+          });
+        }
+      } else {
+        // User is signed out
+        setCurrentUser(null);
+      }
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
+
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {

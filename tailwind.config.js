@@ -18,6 +18,9 @@ export default {
         "your-custom-color": "#123456",
       },
     },
+    variants: {
+      boxShadow: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
+    },
   },
   plugins: [require("flowbite/plugin")],
 };

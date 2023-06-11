@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { auth, provider, firestore } from "../../firebaseConfig";
 import { doc, getDoc, getDocFromServer } from "firebase/firestore";
-
+import LandingHeader from "../components/client/LandingHeader";
 import {
   getAuth,
   fetchSignInMethodsForEmail,
@@ -50,6 +50,8 @@ const Login = ({ darkMode }) => {
           ...userCredential.user,
           uid: userCredential.user.uid,
           isAdmin: userData.isAdmin,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
         });
         if (userData.isAdmin) {
           navigate("/admin/dash");
@@ -118,8 +120,10 @@ const Login = ({ darkMode }) => {
     <div
       className={`min-h-screen ${
         darkMode ? 'bg-gray-900' : 'bg-cyan-50'
-      } flex items-center justify-center`}
+      } `}
     >
+    <LandingHeader/>
+    <div className="mt-40 flex flex-col justify-center items-center"> 
       <div
         className={`w-full max-w-md ${
           darkMode ? 'bg-gray-800' : 'bg-white'
@@ -205,18 +209,10 @@ const Login = ({ darkMode }) => {
               Sign In with Google
             </button>
           </div>
-          <div className="mt-6 text-center">
-            <a
-              href="/admin"  // Replace with actual user portal link
-              className={`${
-                darkMode ? 'text-white' : 'text-gray-500'
-              } text-sm underline hover:text-cyan-500`}
-            >
-              Are you looking for the admin portal? Sign in Here.
-            </a>
-          </div>
+        
         </div>
       </div>
+    </div>
     </div>
   );
   

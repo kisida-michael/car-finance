@@ -7,21 +7,22 @@ const UserPortalHeader = () => {
     const navigate = useNavigate();
     const { currentUser } = useUserStore();
   
+    console.log(currentUser);
     const handleLogout = () => {
       // Handle logout logic here
       // Reset the currentUser state after logout
       useUserStore.getState().setCurrentUser(null);
-      navigate('/signin');
+      navigate('/user');
     }
   
     return (
       <div>
         <header className="flex justify-between items-center py-4 px-40 bg-cyan-500 text-white shadow-md">
-          <h1 className="text-2xl font-bold">AW Auto</h1>
+          <h1 onClick={() => navigate('/auto-loans')}className="cursor-pointer text-2xl font-bold">AW Auto</h1>
   
           <div className="flex items-center">
             <FiUser className="mr-2" />
-            <p className="mr-4">{currentUser.displayName}</p>
+            <p className="mr-4">{currentUser.displayName ? currentUser.displayName : `${currentUser.firstName} ${currentUser.lastName}`}</p>
             <button 
               onClick={handleLogout} 
               className="flex items-center"

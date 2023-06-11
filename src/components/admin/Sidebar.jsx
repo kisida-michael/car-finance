@@ -61,8 +61,9 @@ const Sidebar = () => {
     auth
       .signOut() // call the signOut method from the auth instance
       .then(() => {
-        console.log("User signed out successfully!");
         navigate("/admin");
+        console.log("User signed out successfully!");
+        
       })
       .catch((error) => {
         console.log("Error signing out:", error);

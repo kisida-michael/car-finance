@@ -115,18 +115,16 @@ const AdminLogin = ({ darkMode }) => {
   return (
     <div
       className={`min-h-screen ${
-        darkMode ? "bg-gray-900" : "bg-gray-100"
+        darkMode ? "bg-admin" : "bg-admin"
       } flex items-center justify-center`}
     >
       <div
         className={`w-full max-w-md ${
-          darkMode ? "bg-gray-800" : "bg-white"
+          darkMode ? "bg-gray-800" : "bg-card"
         } rounded-lg shadow-md`}
       >
         <div className="p-6">
-          <h2
-            className="text-3xl font-semibold text-center text-cyan-500"
-          >
+          <h2 className="text-3xl font-semibold text-center text-cyan-500">
             Admin Sign In
           </h2>
           <form className="mt-6" onSubmit={handleEmailPasswordSignIn}>
@@ -142,13 +140,9 @@ const AdminLogin = ({ darkMode }) => {
                   placeholder="Email"
                   required
                   ref={emailRef}
-                  className={`w-full px-4 py-2 border ${
-                    darkMode ? "border-gray-600" : "border-gray-300"
-                  } rounded-md focus:outline-none ${
-                    darkMode
-                      ? "focus:ring-2 focus:ring-cyan-300 text-white"
-                      : "focus:ring-2 focus:ring-cyan-500"
-                  }`}
+                  className={
+                    "w-full p-2  rounded-md text-gray-200 bg-cardAlt ring-0 border-0 focus:ring-2 focus:ring-cyan-600"
+                  }
                 />
               </div>
               <div>
@@ -162,13 +156,9 @@ const AdminLogin = ({ darkMode }) => {
                   placeholder="Password"
                   required
                   ref={passwordRef}
-                  className={`w-full px-4 py-2 border ${
-                    darkMode ? "border-gray-600" : "border-gray-300"
-                  } rounded-md focus:outline-none ${
-                    darkMode
-                      ? "focus:ring-2 focus:ring-cyan-300 text-white"
-                      : "focus:ring-2 focus:ring-cyan-500"
-                  }`}
+                  className={
+                    "w-full p-2  rounded-md text-white- bg-cardAlt ring-0 border-0 focus:ring-2 focus:ring-cyan-600"
+                  }
                 />
               </div>
             </div>
@@ -183,20 +173,15 @@ const AdminLogin = ({ darkMode }) => {
               Sign In
             </button>
           </form>
-          <div className="mt-6">
+          <div className="mt-6 hover:text-white">
             <button
               onClick={handleGoogleSignIn}
-              className={`w-full py-2 border ${
-                darkMode ? "border-gray-600" : "border-gray-300"
-              } rounded-md flex items-center justify-center transition duration-200 ease-in-out transform  ${
-                darkMode ? "text-white hover:bg-gray-700" : "hover:bg-gray-200"
-              }`}
+              className="w-full py-2 border text-white bg-cardAlt border-red-500 rounded-md flex items-center justify-center transition duration-200 ease-in-out hover:bg-red-500"
             >
               <FontAwesomeIcon
                 icon={faGoogle}
-                className={`text-red-500 mr-2 ${
-                  darkMode ? "text-red-400" : ""
-                }`}
+                className=" mr-2 hover:text-white"
+
               />
               Sign In with Google
             </button>

@@ -1,20 +1,21 @@
 import React, { useState, useRef } from 'react';
+import { useForm } from 'react-hook-form';
 import ApplicantInfo from '../components/client/apply/forms/ApplicantInfo';
 import EmploymentInfo from '../components/client/apply/forms/EmploymentInfo';
 import CustomAlert from '../components/client/CustomAlert';
 import LandingHeader from '../components/client/LandingHeader';
+
 const UserApplication = () => {
   const [step, setStep] = useState(0);
-  const stepValidationStatus = useRef([]);
   const [errorMessage, setErrorMessage] = useState(null);
-  const formMethods = useRef();
+
+  const methods = useForm({ defaultValues: {}, mode: 'onBlur' });
+  const { trigger, getValues, reset } = methods;
 
   const handleNext = async () => {
-    const isFormValid = await formMethods.current.trigger();
-  
+    const isFormValid = await trigger();
+
     if (isFormValid) {
-      const formData = formMethods.current.getValues();
-      console.log(formData);  // You can replace this with logic to save the data in your application state
       if (step < components.length - 1) {
         setStep(step + 1);
       }
@@ -22,42 +23,44 @@ const UserApplication = () => {
       setErrorMessage('Please correct the errors before proceeding');
     }
   };
+
   const handleAlertDismiss = () => {
     setErrorMessage(null);
   };
 
   const handlePrev = () => {
     if (step > 0) {
+      reset(getValues());  // Save the form data when navigating back
       setStep(step - 1);
     }
   };
 
   const handleSubmit = async () => {
-    const isFormValid = await formMethods.current.trigger();    if (isFormValid) {
-      // Submit the form
-      console.log('Form submitted')
-      console.log(formMethods.current.getValues());
+    const isFormValid = await trigger();
 
-   
+    if (isFormValid) {
+      console.log('Form submitted');
+      console.log(getValues());
     } else {
       setErrorMessage('Please correct the errors before proceeding');
     }
   };
 
   const components = [
-    <ApplicantInfo formMethodsRef={formMethods} />,
-    <EmploymentInfo formMethodsRef={formMethods} />,
+    <ApplicantInfo formMethods={methods} />,
+    <EmploymentInfo formMethods={methods} />,
+
+   
   ];
 
   return (
- <div className="flex flex-col h-screen bg-cyan-50 ">
-  
+    <div className="flex flex-col h-screen bg-cyan-50 ">
         <LandingHeader />
 
-        <div className="w-full max-w-md justify-center items-center mx-auto mt-20 bg-white rounded-md p-4 shadow-md" >
+        <div className=" max-w-2xl justify-center items-center mx-auto mt-20  bg-white rounded-md p-4 shadow-md" >
         {components[step]}
 
-        <div className="flex justify-between mt-4">
+        <div className="flex justify-between mt-4 mx-4">
           <button
             onClick={handlePrev}
             disabled={step === 0}
