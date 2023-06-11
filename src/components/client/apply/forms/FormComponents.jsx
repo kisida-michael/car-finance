@@ -46,13 +46,13 @@ export const FormInput = ({ name, register, requiredMessage, placeholder, onChan
     </div>
   );
   
-  export const FormSSN = ({ name, register, requiredMessage, value, onChange, onBlur, errors, placeholder }) => (
+  export const FormSSN = ({ name, register, requiredMessage, placeholder, value, onChange, errors }) => (
     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-6">
       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{placeholder}</label>
-      <input {...register(name, { required: requiredMessage })} value={value} onChange={onChange} onBlur={onBlur} placeholder="Social Security Number" className="border-2 border-gray-200 rounded-md p-2" />
+      <input {...register(name, { required: requiredMessage })} value={value} onChange={onChange} placeholder={placeholder} className="border-2 border-gray-200 rounded-md p-2 w-full" />
       {errors[name] && <p className="text-red-500">{errors[name].message}</p>}
     </div>
-);
+  );
 
   
 // Continue with the other fields
