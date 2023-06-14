@@ -53,15 +53,32 @@ export const FormInput = ({ name, register, requiredMessage, placeholder, onChan
       {errors[name] && <p className="text-red-500">{errors[name].message}</p>}
     </div>
   );
-  export const FileUpload = ({ name, register, requiredMessage, placeholder, errors }) => {
+  export const FileUpload = ({ name, register, requiredMessage, placeholder, errors, onChange }) => {
     return (
-      <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{placeholder}</label>
-        <input type="file" {...register(name, { required: requiredMessage })} className="border-2 border-gray-200 rounded-md p-2" />
+      <div className="w-full px-3 mb-4 md:mb-0">
+        <label 
+          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
+          htmlFor={name}>
+          {placeholder}
+        </label>
+        <label 
+          className="w-full border-2 border-gray-200 rounded-md p-2 mb-4 flex items-center justify-center cursor-pointer bg-gray-100 hover:bg-gray-200" 
+          htmlFor={name}>
+          Choose file
+        </label>
+        <input
+          type="file"
+          id={name}
+          {...register(name, { required: requiredMessage })}
+          onChange={onChange}
+          className="hidden" // Hide the actual input
+        />
         {errors[name] && <p className="text-red-500">{errors[name].message}</p>}
       </div>
     );
   };
+
+  
   
 // Continue with the other fields
 // ...

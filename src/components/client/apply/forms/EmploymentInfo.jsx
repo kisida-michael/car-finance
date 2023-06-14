@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Controller } from 'react-hook-form';
 import { states } from '../../../../utils/constants';
 import { FormInput, FormDate, FormSSN, FormSelect, FormPhone} from './FormComponents';
 
-const EmploymentInfo = ({ formMethods }) => {
-  const { register, control, formState: { errors } } = formMethods;
+const EmploymentInfo = ({ formMethods,  }) => {
+  const { register, control, formState: { errors }} = formMethods;
+ 
+  
   const residenceYears = ["Less than 1 year", "1 year", "2 years", "3 years", "4 years", "5+ years"];
   
   const [employerPhone, setEmployerPhone] = useState("");
@@ -62,11 +64,11 @@ const EmploymentInfo = ({ formMethods }) => {
       <h3 className="text-xl text-gray-500 mb-4 font-semibold">Employment Information</h3>
 
       <div className="flex flex-wrap -mx-3">
-        <FormInput name="currentEmployer" register={register} requiredMessage="Current employer is required" placeholder="Current Employer" errors={errors} />
+        <FormInput name="employment.CurrentEmployer" register={register} requiredMessage="Current employer is required" placeholder="Current Employer" errors={errors} />
         {/* <FormPhone name="employerPhone" register={register} requiredMessage="Employer's phone is required" placeholder="Employer's Phone Number" value={employerPhone} onChange={handlePhoneChange} errors={errors} /> */}
-        <FormSelect name="employmentDuration" control={control} requiredMessage="Employment duration is required" options={employmentYears} placeholder="Employment Duration - Select Years" errors={errors} />
-        <FormInput name="position" register={register} requiredMessage="Position is required" placeholder="Position" errors={errors} />
-        <FormInput name="grossAnnualIncome" register={register} requiredMessage="Gross annual income is required" placeholder="Gross Annual Income" value={grossAnnualIncome} onChange={handleIncomeChange} errors={errors} />
+        <FormSelect name="employment.Duration" control={control} requiredMessage="Employment duration is required" options={employmentYears} placeholder="Employment Duration - Select Years" errors={errors} />
+        <FormInput name="employment.Position" register={register} requiredMessage="Position is required" placeholder="Position" errors={errors} />
+        <FormInput name="employment.GrossAnnualIncome" register={register} requiredMessage="Gross annual income is required" placeholder="Gross Annual Income" value={grossAnnualIncome} onChange={handleIncomeChange} errors={errors} />
       </div>
     </form>
   );
