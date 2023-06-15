@@ -14,11 +14,13 @@ import AdminManagement from "./screens/AdminManagement";
 import UserLayout from "./layouts/users/UserLayout";
 import UserLanding from "./screens/UserLanding";
 import UserApplication from "./screens/UserApplication";
+import UserSimpleApplication from "./screens/UserSimpleApplication";
 import UserDash from "./screens/UserDash";
 import UserPayment from "./screens/UserPayment";
 
 import { auth, firestore } from "../firebaseConfig";
 import "./index.css";
+import AdminLeads from "./screens/AdminLeads";
 
 function App() {
   const setCurrentUser = useUserStore((state) => state.setCurrentUser);
@@ -53,7 +55,6 @@ function App() {
     return () => unsubscribe();
   }, []);
 
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
@@ -76,42 +77,41 @@ function App() {
   }
 
   return (
-    
     <BrowserRouter>
-      <div
-      
-      >
+      <div>
         <Routes>
           <Route path="/admin" element={<AdminLogin darkMode={darkMode} />} />
-          <Route path="/signup" element={<SignUp/>} />
-          <Route path= "/auto-loan" element= {<UserLanding/>} />
-          <Route path= "/application" element= {<UserApplication/>} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/auto-loan" element={<UserLanding />} />
+          <Route path="/application" element={<UserSimpleApplication />} />
 
-       
           <Route
-          path="/admin/*"
-          element={
-            <AdminLayout>
-              <Routes>
-                <Route path="/dash" element={<AdminDashboard />} />
-                <Route path="/customers" element={<AdminCustomers />} />
-                <Route path="/invoice" element={<AdminInvoices />} />
-                <Route path="/management" element={<AdminManagement />} />
-              </Routes>
-            </AdminLayout>
-          }
-        />
+            path="/admin/*"
+            element={
+              <AdminLayout>
+                <Routes>
+                  <Route path="/dash" element={<AdminDashboard />} />
+                  <Route path="/customers" element={<AdminCustomers />} />
+                  <Route path="/leads" element={<AdminLeads />} />
+                  <Route path="/invoice" element={<AdminInvoices />} />
+                  <Route path="/management" element={<AdminManagement />} />
+                </Routes>
+              </AdminLayout>
+            }
+          />
 
-        <Route path="/user" element={<UserLogin darkMode={darkMode} />} />
-        <Route path = "/user/*" element = {
-        <UserLayout>
-          <Routes>
-            <Route path = "/dash" element = {<UserDash/>} />
-            <Route path = "/application" element = {<UserPayment/>} />
-        
-        </Routes>
-        </UserLayout>
-        } />
+          <Route path="/user" element={<UserLogin darkMode={darkMode} />} />
+          <Route
+            path="/user/*"
+            element={
+              <UserLayout>
+                <Routes>
+                  <Route path="/dash" element={<UserDash />} />
+                  <Route path="/application" element={<UserPayment />} />
+                </Routes>
+              </UserLayout>
+            }
+          />
         </Routes>
       </div>
     </BrowserRouter>

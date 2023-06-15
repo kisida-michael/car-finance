@@ -1,6 +1,6 @@
 import React from 'react'
 import useUserStore from '../../store/userStore';
-import Sidebar from '../../components/admin/Sidebar';
+import Sidebar from '../../components/admin/Sidebar/Sidebar';
 import AdminDashboard from '../../screens/AdminDashboard';
 import { AnimatePresence } from "framer-motion";
 
