@@ -2,17 +2,16 @@ import { ref, push } from "firebase/database";
 import { getDatabase } from "firebase/database";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import ApplicantInfo from "../components/admin/adminCustomers/forms/ApplicantInfo";
-import EmploymentInfo from "../components/client/apply/forms/EmploymentInfo";
-import VehicleInfo from "../components/client/apply/forms/VehicleInfo";
-import CustomAlert from "../components/client/CustomAlert";
-import LandingHeader from "../components/client/LandingHeader";
-import ProgressBar from "../components/client/apply/ProgressBar";
-import UploadDocs from "../components/client/apply/forms/UploadDocs";
-import ReviewInfo from "../components/client/apply/forms/ReviewInfo";
+import ApplicantInfo from "./ApplicantInfo";
+import EmploymentInfo from "./EmploymentInfo"
+import AdminCustomerAlert from "../../AdminCustomAlert";
+import ProgressBar from "../../../client/apply/ProgressBar";
+import UploadDocs from "./UploadDocs";
+import VehicleInfo from "./VehicleInfo";
+import ReviewInfo from "./ReviewInfo";
 import { v4 as uuidv4 } from "uuid";
 
-const UserApplication = () => {
+const AddCustomer = () => {
   const [step, setStep] = useState(0);
   const [errorMessage, setErrorMessage] = useState(null);
   const [tempId, setTempId] = useState(uuidv4());
@@ -114,10 +113,10 @@ const UserApplication = () => {
   ];
 
   return (
-    <div className="flex flex-col  ">
+    <div className="w-full sm:pl-8 pl-0 pr-8 text-gray-800">
       {/* <LandingHeader /> */}
 
-      <div className=" lg:w-2/5 md:w-3/4 justify-center items-center mx-auto mt-20  bg-white rounded-md p-4 shadow-md mb-20">
+      <div className="bg-card justify-center items-center mx-auto mt-20   rounded-md p-4 shadow-md mb-20">
         <div className="mb-10 mt-4">
           <ProgressBar step={step + 1} totalSteps={components.length} />
         </div>
@@ -150,10 +149,10 @@ const UserApplication = () => {
         </div>
       </div>
       {errorMessage && (
-        <CustomAlert message={errorMessage} onDismiss={handleAlertDismiss} />
+        <AdminCustomerAlert  message={errorMessage} onDismiss={handleAlertDismiss} />
       )}
     </div>
   );
 };
 
-export default UserApplication;
+export default AddCustomer;

@@ -84,6 +84,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/auto-loan" element={<UserLanding />} />
           <Route path="/application" element={<UserSimpleApplication />} />
+          {/* <Route path="/apply" element={<UserApplication />} /> */}
 
           <Route
             path="/admin/*"

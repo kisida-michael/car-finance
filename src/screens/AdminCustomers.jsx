@@ -4,7 +4,7 @@ import { firestore } from "../../firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import CustomerCard from "../../src/components/admin/adminCustomers/CustomerCard";
 import CustomerDetails from "../../src/components/admin/adminCustomers/CustomerDetails";
-import AddCustomer from "../components/admin/adminCustomers/AddCustomer";
+import AddCustomer from "../components/admin/adminCustomers/forms/AddCustomer";
 import {
   FiChevronDown,
   FiChevronUp,

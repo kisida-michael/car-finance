@@ -13,14 +13,14 @@ export const FormInput = ({ name, register, requiredMessage, placeholder, onChan
   const [parentName, childName] = name.split('.');
 
   return (
-    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-6">
-      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{placeholder}</label>
+    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-6 text-gray-300">
+      <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2">{placeholder}</label>
       <div className="relative">
         {prefix && <span className="text-cyan-500 absolute inset-y-0 left-0 flex items-center pl-2">{prefix}</span>}
         <input 
           {...register(name, { required: requiredMessage })} 
           placeholder={placeholder} 
-          className={`border-gray-300 border-b-3 bg-gray-50 p-2 w-full focus:border-cyan-500 focus:outline-none ${prefix ? 'pl-6' : ''}`}
+          className={`border-cardAlt border-b-3 bg-admin p-2 w-full focus:border-cyan-500 focus:outline-none ${prefix ? 'pl-6' : ''}`}
           onChange={onChange} 
           value={value} 
         />
@@ -34,14 +34,14 @@ export const FormInput = ({ name, register, requiredMessage, placeholder, onChan
 export const FormSelect = ({ name, control, requiredMessage, placeholder, errors, options }) => {
   const [parentName, childName] = name.split('.');
   return (
-    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-6">
-      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{placeholder}</label>
+    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-6 text-gray-300">
+      <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2">{placeholder}</label>
       <Controller 
         control={control}
         name={name}
         rules={{ required: requiredMessage }}
         render={({ field }) => (
-          <select {...field} className="border-gray-300  border-t-0 border-r-0 border-l-0 border-b-3 bg-gray-50 p-2 w-full focus:border-cyan-500 focus:outline-none focus:ring-0">
+        <select {...field} className="border-t-0 border-r-0 border-l-0 border-b-3 border-cardAlt bg-admin p-2 w-full focus:border-cyan-500 focus:outline-none focus:ring-0">
             <option value="">{placeholder}</option>
             {options.map(option => (
               <option key={option} value={option}>
@@ -58,9 +58,9 @@ export const FormSelect = ({ name, control, requiredMessage, placeholder, errors
 export const FormDate = ({ name, register, requiredMessage, placeholder, errors }) => {
   const [parentName, childName] = name.split('.');
   return (
-    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-6">
-      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{placeholder}</label>
-      <input {...register(name, { required: requiredMessage })} placeholder={placeholder} className="`border-gray-300 border-b-3 bg-gray-50 p-2 w-full focus:border-cyan-500 focus:outline-none" type="date" />
+    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-6 text-gray-300">
+      <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2">{placeholder}</label>
+      <input {...register(name, { required: requiredMessage })} placeholder={placeholder} className="border-t-0 border-r-0 border-l-0 border-b-3 border-cardAlt bg-admin p-2 w-full focus:border-cyan-500 focus:outline-none focus:ring-0" type="date" />
       {getNestedObject(errors, [parentName, childName]) && <p className="text-red-500">{getNestedObject(errors, [parentName, childName]).message}</p>}
     </div>
   );
@@ -69,9 +69,9 @@ export const FormDate = ({ name, register, requiredMessage, placeholder, errors 
 export const FormPhone = ({ name, register, requiredMessage, placeholder, value, onChange, errors }) => {
   const [parentName, childName] = name.split('.');
   return (
-    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-6">
-      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{placeholder}</label>
-      <input {...register(name, { required: requiredMessage })} value={value} onChange={onChange} placeholder={placeholder} className="`border-gray-300 border-b-3 bg-gray-50 p-2 w-full focus:border-cyan-500 focus:outline-none" />
+    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-6 text-gray-300">
+      <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2">{placeholder}</label>
+      <input {...register(name, { required: requiredMessage })} value={value} onChange={onChange} placeholder={placeholder} className="border-cardAlt border-b-3 bg-admin p-2 w-full focus:border-cyan-500 focus:outline-none" />
       {getNestedObject(errors, [parentName, childName]) && <p className="text-red-500">{getNestedObject(errors, [parentName, childName]).message}</p>}
     </div>
   );
@@ -80,9 +80,9 @@ export const FormPhone = ({ name, register, requiredMessage, placeholder, value,
 export const FormSSN = ({ name, register, requiredMessage, placeholder, value, onChange, errors }) => {
   const [parentName, childName] = name.split('.');
   return (
-    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-6">
-      <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{placeholder}</label>
-      <input {...register(name, { required: requiredMessage })} value={value} onChange={onChange} placeholder={placeholder} className="`border-gray-300 border-b-3 bg-gray-50 p-2 w-full focus:border-cyan-500 focus:outline-none" />
+    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-6 text-gray-300">
+      <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2">{placeholder}</label>
+      <input {...register(name, { required: requiredMessage })} value={value} onChange={onChange} placeholder={placeholder} className="border-cardAlt border-b-3 bg-admin p-2 w-full focus:border-cyan-500 focus:outline-none" />
       {getNestedObject(errors, [parentName, childName]) && <p className="text-red-500">{getNestedObject(errors, [parentName, childName]).message}</p>}
     </div>
   );
@@ -93,12 +93,12 @@ export const FileUpload = ({ name, register, requiredMessage, placeholder, error
   return (
     <div className="w-full px-3 mb-4 md:mb-0">
       <label 
-        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" 
+        className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2" 
         htmlFor={name}>
         {placeholder}
       </label>
       <label 
-        className="w-full border-2 border-gray-300 rounded-md p-2 mb-4 flex items-center justify-center cursor-pointer bg-gray-100 hover:bg-gray-200" 
+        className="w-full text-gray-300 border-cardAlt rounded-md p-2 mb-4 flex items-center justify-center cursor-pointer bg-cardAlt hover:bg-admin " 
         htmlFor={name}>
         Choose file
       </label>
@@ -116,8 +116,8 @@ export const FileUpload = ({ name, register, requiredMessage, placeholder, error
 export const FormCheckbox = ({ name, control, label, onChange, errors }) => {
   const [parentName, childName] = name.split('.');
   return (
-    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-6">
-      <label className="uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 flex items-center">
+    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-6 text-gray-300">
+      <label className="uppercase tracking-wide text-gray-300 text-xs font-bold mb-2 flex items-center">
         <Controller
           control={control}
           name={name}
@@ -153,15 +153,15 @@ export const FormEmail = ({ name, register, requiredMessage, placeholder, onChan
   } : {};
 
   return (
-      <div className="w-full md:w-1/2 px-3 mb-6 md:mb-6">
-          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{placeholder}</label>
+      <div className="w-full md:w-1/2 px-3 mb-6 md:mb text-gray-300-6">
+          <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2">{placeholder}</label>
           <input 
               {...register(name, { 
                   required: requiredMessage,
                   pattern: pattern
               })} 
               placeholder={placeholder} 
-              className="border-gray-300 border-b-3 bg-gray-50 p-2 w-full focus:border-cyan-500 focus:outline-none" 
+              className="border-2 border-cardAlt rounded-md p-2 w-full" 
               onChange={onChange} 
               value={value} 
           />

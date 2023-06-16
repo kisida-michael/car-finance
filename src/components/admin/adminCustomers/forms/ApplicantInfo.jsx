@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { states } from '../../../../utils/constants';
-import { FormInput, FormDate, FormSSN, FormSelect, FormPhone} from '../../../client/apply/forms/FormComponents';
+import { FormInput, FormDate, FormSSN, FormSelect, FormPhone} from './AdminFormComponents';
 
 const ApplicantInfo = ({ formMethods }) => {
   const { register, control, formState: { errors }, } = formMethods;
@@ -51,7 +51,7 @@ const ApplicantInfo = ({ formMethods }) => {
   return (
     <form className="p-4 space-y-4">
     <h2 className="text-2xl text-cyan-500 mb-10 font-semibold">Applicant Info</h2>
-    <h3 className="text-xl text-gray-500 mb-4 font-semibold">Personal Information</h3>
+    <h3 className="text-xl text-gray-200 mb-4 font-semibold">Personal Information</h3>
 
     <div className="flex flex-wrap -mx-3 ">
     <FormInput name="applicant.FirstName" register={register} requiredMessage="First Name is required" placeholder="First Name" errors={errors} />
@@ -62,7 +62,7 @@ const ApplicantInfo = ({ formMethods }) => {
     </div>
     <hr className="my-4" />
 
-<h3 className="text-xl text-gray-500 mb-4 font-semibold">Residential Information</h3>
+<h3 className="text-xl text-gray-200 mb-4 font-semibold">Residential Information</h3>
 
     <div className="flex flex-wrap -mx-3 mt-4">
       <FormInput  name="applicant.Address" register={register} requiredMessage="Address is required" placeholder="Address*" errors={errors} />
