@@ -18,11 +18,27 @@ import { motion } from "framer-motion";
 
 const CustomerDetails = ({ customer, onClose }) => {
   const [activeIndex, setActiveIndex] = useState(null);
-
+  console.log(customer);
   const handleClick = (index) => {
     setActiveIndex(index === activeIndex ? null : index);
   };
-
+  function Section({ title, children }) {
+    const [isOpen, setIsOpen] = useState(true);
+  
+    return (
+      <div className="p-4 bg-admin rounded-lg my-4">
+        <button 
+          className="text-lg font-bold text-cyan-500 flex justify-between items-center focus:outline-none w-full"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {title}
+          {isOpen ? <FiChevronUp /> : <FiChevronDown />}
+        </button>
+        {isOpen && children}
+      </div>
+    );
+  }
+  
   const slideIn = {
     hidden: { x: "100%" }, // Start from the right
     visible: { x: "0%", transition: { duration: 0.2 } }, // Slide to the left
@@ -51,28 +67,96 @@ const CustomerDetails = ({ customer, onClose }) => {
             className="mt-4 w-24 h-24 rounded-full mb-4 mx-auto "
           />
           <h2 className="text-2xl font-bold mb-4 text-center">
-            {customer.fullName}
+            {customer.applicant.fullName}
           </h2>
         </div>
-        <div className="p-4 bg-admin rounded-lg my-4">
-          <h4 className="text-lg font-bold mb-2 text-cyan-500 ">
-            Contact Info
-          </h4>
+        <Section title="Contact Info">
           <div className="my-2 flex items-center ">
-            <FiMail className="mr-2" /> {customer.email}
+            <FiMail className="mr-2" /> {customer.applicant.Email}
           </div>
           <hr className="opacity-20" />
           <div className="my-2 flex items-center">
-            <FiPhone className="mr-2" /> {customer.phoneNumber}
+            <FiPhone className="mr-2" /> {customer.applicant.Phone}
           </div>
           <hr className="opacity-20" />
           <div className="my-2 flex items-center">
-            <FiHome className="mr-2" /> {customer.address} {customer.city}{" "}
-            {customer.state}, {customer.zipCode}
+            <FiCalendar className="mr-2" /> {customer.applicant.Dob}
           </div>
-        </div>
+          <hr className="opacity-20" />
+          <div className="my-2 flex items-center">
+            <FiHome className="mr-2" />
+            {customer.applicant.Address}
+            {customer.AptNumber && ` Apt: ${customer.applicant.AptNumber}`}{" "}
+            {/* If AptNumber exists, display it */}
+            {customer.applicant.City}, {" "}
+            {customer.applicant.State}{" "} {customer.applicant.ZipCode}
+          </div>
+          <hr className="opacity-20" />
+          <h4 className="text-lg font-bold mb-2 mt-8 text-cyan-500 ">
+            Residence Info
+          </h4>
+          <div className="my-2 flex items-center font-bold">
+            Housing Status: <span className=" ml-1 font-normal"> {customer.applicant.HousingStatus}</span>
+          </div>
+          <hr className="opacity-20" />
 
-        <div className="p-4 bg-admin rounded-lg my-4">
+          <div className="my-2 flex items-center font-bold">
+            Monthly Payment: <span className=" ml-1 font-normal"> ${customer.applicant.MonthlyPayment}</span>
+          </div>
+          <hr className="opacity-20" />
+
+          <div className="my-2 flex items-center font-bold">
+            Residence Duration: <span className=" ml-1 font-normal"> {customer.applicant.ResidenceDuration}</span>
+          </div>
+          
+          </Section>
+
+          <Section title="Employment">
+
+          <div className="my-2 flex items-center font-bold">
+           Current Employer: <span className=" ml-1 font-normal"> {customer.employment.CurrentEmployer}</span>
+          </div>
+          <hr className="opacity-20" />
+
+          <div className="my-2 flex items-center font-bold">
+            Duration: <span className=" ml-1 font-normal"> {customer.employment.Duration}</span>
+          </div>
+          <hr className="opacity-20" />
+
+          <div className="my-2 flex items-center font-bold">
+            Position: <span className=" ml-1 font-normal"> {customer.employment.Position}</span>
+          </div>
+          <hr className="opacity-20" />
+
+          <div className="my-2 flex items-center font-bold">
+            Annual Income: <span className=" ml-1 font-normal"> {customer.employment.GrossAnnualIncome}</span>
+          </div>
+         
+        </Section>
+
+        
+        <Section title="Vehicle Info">
+          <div className="my-2 flex items-center font-bold">
+           Make: <span className=" ml-1 font-normal"> {customer.vehicle.Make}</span>
+          </div>
+          <hr className="opacity-20" />
+
+          <div className="my-2 flex items-center font-bold">
+            Mileage: <span className=" ml-1 font-normal"> {customer.vehicle.Mileage}</span>
+          </div>
+          <hr className="opacity-20" />
+
+          <div className="my-2 flex items-center font-bold">
+            VIN: <span className=" ml-1 font-normal"> {customer.vehicle.Vin}</span>
+          </div>
+          <hr className="opacity-20" />
+
+          <div className="my-2 flex items-center font-bold">
+            Year: <span className=" ml-1 font-normal"> {customer.vehicle.Year}</span>
+          </div>
+         
+        </Section>
+        {/* <div className="p-4 bg-admin rounded-lg my-4">
           <h4 className="text-lg font-bold mb-2 text-cyan-500">Payment Info</h4>
           <div className="my-2 flex items-center">
             <FiPercent className="mr-2" />
@@ -93,9 +177,9 @@ const CustomerDetails = ({ customer, onClose }) => {
             <span className="font-bold mr-1">Down Payment: </span>{" "}
             {customer.downPayment.toFixed(2)}{" "}
           </div>
-        </div>
+        </div> */}
 
-        <div className="p-4 bg-admin rounded-lg my-4">
+        {/* <div className="p-4 bg-admin rounded-lg my-4">
           <h4 className="text-lg font-bold text-cyan-500">References</h4>
           {customer.references &&
             customer.references.length > 0 &&
@@ -135,9 +219,9 @@ const CustomerDetails = ({ customer, onClose }) => {
                 )}
               </div>
             ))}
-        </div>
+        </div> */}
 
-        <div className="bg-admin text-white text-center rounded-lg my-2 mx-auto flex flex-col justify-between py-8 items-center space-y-4 ">
+        {/* <div className="bg-admin text-white text-center rounded-lg my-2 mx-auto flex flex-col justify-between py-8 items-center space-y-4 ">
           <div className="text-xl ">Car Price</div>
           <div className="text-4xl font-bold text-cyan-500">
             ${customer.carPrice.toFixed(2)}
@@ -146,7 +230,7 @@ const CustomerDetails = ({ customer, onClose }) => {
             {" "}
             Due June 5, 2024
           </div>
-        </div>
+        </div> */}
       </div>
     </motion.div>
   );

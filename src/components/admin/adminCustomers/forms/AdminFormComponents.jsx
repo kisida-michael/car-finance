@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { states } from '../../../../utils/constants';
 import { Controller } from 'react-hook-form';
-
+import InputMask from 'react-input-mask';
 const getNestedObject = (nestedObj, pathArr) => {
   return pathArr.reduce((obj, key) =>
     (obj && obj[key] !== 'undefined') ? obj[key] : undefined, nestedObj);
@@ -77,16 +77,38 @@ export const FormPhone = ({ name, register, requiredMessage, placeholder, value,
   );
 };
 
-export const FormSSN = ({ name, register, requiredMessage, placeholder, value, onChange, errors }) => {
+export function FormSSN({ name, control, requiredMessage, placeholder, errors }) {
   const [parentName, childName] = name.split('.');
   return (
     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-6 text-gray-300">
       <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2">{placeholder}</label>
-      <input {...register(name, { required: requiredMessage })} value={value} onChange={onChange} placeholder={placeholder} className="border-cardAlt border-b-3 bg-admin p-2 w-full focus:border-cyan-500 focus:outline-none" />
+      <Controller
+        name={name}
+        control={control}
+        rules={{ required: requiredMessage }}
+        defaultValue=""
+        render={({ field }) => (
+          <InputMask 
+            mask="***-**-****"
+            value={field.value}
+            onChange={field.onChange}
+          >
+            {(inputProps) => 
+              <input 
+                {...inputProps} 
+                placeholder={placeholder}
+                className="border-cardAlt border-b-3 bg-admin p-2 w-full focus:border-cyan-500 focus:outline-none"
+              />}
+          </InputMask>
+        )}
+      />
       {getNestedObject(errors, [parentName, childName]) && <p className="text-red-500">{getNestedObject(errors, [parentName, childName]).message}</p>}
     </div>
   );
 };
+
+
+
 
 export const FileUpload = ({ name, register, requiredMessage, placeholder, errors, onChange }) => {
   const [parentName, childName] = name.split('.');
@@ -153,7 +175,7 @@ export const FormEmail = ({ name, register, requiredMessage, placeholder, onChan
   } : {};
 
   return (
-      <div className="w-full md:w-1/2 px-3 mb-6 md:mb text-gray-300-6">
+      <div className="w-full md:w-1/2 px-3 mb-6 md:mb text-gray-300 ">
           <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2">{placeholder}</label>
           <input 
               {...register(name, { 
@@ -161,7 +183,7 @@ export const FormEmail = ({ name, register, requiredMessage, placeholder, onChan
                   pattern: pattern
               })} 
               placeholder={placeholder} 
-              className="border-2 border-cardAlt rounded-md p-2 w-full" 
+              className="border-cardAlt border-b-3 bg-admin p-2 w-full focus:border-cyan-500 focus:outline-none" 
               onChange={onChange} 
               value={value} 
           />

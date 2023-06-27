@@ -84,14 +84,16 @@ const CustomerCard = ({
     >
       <div className="flex flex-1 items-center space-x-4">
         <FiUser className="mr-2 text-2xl text-cyan-500 font-bold" />
-        <div className="flex-1 font-semibold">{customer.fullName}</div>
+        <div className="flex-1 font-semibold">
+          {customer.applicant.fullName}
+        </div>
         <div className="ml-8 flex-1 flex items-center space-x-2">
           <FiMail className="mr-2 -ml-9 text-cyan-500 font-bold" />
-          <div>{customer.email}</div>
+          <div>{customer.applicant.Email}</div>
         </div>
         <div className="flex-1 flex items-center space-x-2">
           <FiPhone className="mr-2 -ml-2 text-cyan-500 font-bold" />
-          <div>{customer.phoneNumber}</div>
+          <div>{customer.applicant.Phone}</div>
         </div>
       </div>
       <button

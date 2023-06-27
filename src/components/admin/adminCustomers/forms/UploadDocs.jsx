@@ -113,7 +113,6 @@ const UploadDocs = ({ formMethods, tempId, setFileUploaded, setDocumentUrls }) =
               onChange={(e) => handleFileSelect(e, field)}
               name={field}
               register={register}
-              requiredMessage={requiredMessages[index]}
               placeholder={placeholders[index]}
               errors={errors}
             />

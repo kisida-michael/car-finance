@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useTable, useSortBy, usePagination } from "react-table";
 import { firestore } from "../../firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
@@ -16,12 +16,12 @@ import {
   FiXCircle,
 } from "react-icons/fi";
 import { debounce } from "lodash";
-import { AnimatePresence } from "framer-motion";
+
 
 const tableColumns = [
   {
     Header: "Name",
-    accessor: "fullName",
+    accessor: "applicant.fullName",
   },
   {
     Header: "Email",
@@ -29,7 +29,7 @@ const tableColumns = [
   },
   {
     Header: "Phone",
-    accessor: "phone",
+    accessor: "applicant.Phone",
   },
 ];
 
@@ -44,11 +44,11 @@ const AdminCustomers = () => {
   const [data, setData] = useState([]); // Will hold the customer data from Firestore
 
   const fetchData = async () => {
-    const customersRef = collection(firestore, "customers");
-    const customersSnapshot = await getDocs(customersRef);
+    const querySnapshot = await getDocs(collection(firestore, "customers"));
 
-    setData(customersSnapshot.docs.map((doc) => doc.data()));
-    console.log(data);
+    const customers = querySnapshot.docs.map((doc) => doc.data());
+    setData(customers); // Set the data to the customers array
+
     setIsDataFetched(true); // Set isDataFetched to true after the data is fetched
   };
 
@@ -81,14 +81,18 @@ const AdminCustomers = () => {
         setSearchedData(
           data.filter(
             (customer) =>
-              (customer.fullName &&
-                customer.fullName
+              (customer.applicant.fullName &&
+                customer.applicant.fullName
                   .toLowerCase()
                   .includes(search.toLowerCase())) ||
-              (customer.email &&
-                customer.email.toLowerCase().includes(search.toLowerCase())) ||
-              (customer.phone &&
-                customer.phone.toLowerCase().includes(search.toLowerCase()))
+              (customer.applicant.Email &&
+                customer.applicant.Email.toLowerCase().includes(
+                  search.toLowerCase()
+                )) ||
+              (customer.applicant.Phone &&
+                customer.applicant.Phone.toLowerCase().includes(
+                  search.toLowerCase()
+                ))
           )
         );
       } else {
@@ -202,7 +206,7 @@ const AdminCustomers = () => {
                 prepareRow(row);
                 return (
                   <CustomerCard
-                    key={row.original.email}
+                    key={row.original.applicant.Email}
                     customer={row.original}
                     fetchData={fetchData}
                     onClick={() => {

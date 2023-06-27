@@ -173,19 +173,7 @@ const AdminLogin = ({ darkMode }) => {
               Sign In
             </button>
           </form>
-          <div className="mt-6 hover:text-white">
-            <button
-              onClick={handleGoogleSignIn}
-              className="w-full py-2 border text-white bg-cardAlt border-red-500 rounded-md flex items-center justify-center transition duration-200 ease-in-out hover:bg-red-500"
-            >
-              <FontAwesomeIcon
-                icon={faGoogle}
-                className=" mr-2 hover:text-white"
-
-              />
-              Sign In with Google
-            </button>
-          </div>
+          
         </div>
       </div>
     </div>

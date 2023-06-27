@@ -1,24 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Controller } from 'react-hook-form';
 import { states } from '../../../../utils/constants';
-import { FormInput, FormDate, FormSSN, FormSelect, FormPhone} from './AdminFormComponents';
+import { FormInput, FormDate, FormSSN, FormSelect, FormPhone, FormEmail} from './AdminFormComponents';
 
 const ApplicantInfo = ({ formMethods }) => {
-  const { register, control, formState: { errors }, } = formMethods;
+  const { register, control, watch, setValue, formState: { errors }, } = formMethods;
   console.log(errors)
   const residenceYears = ["Less than 1 year", "1 year", "2 years", "3 years", "4 years", "5+ years"];
+  const ssnWatch = watch("applicant.Ssn");
 
   const [ssn, setSSN] = useState('');
   const [monthlyPayment, setMonthlyPayment] = useState('');
   const [phone, setPhone] = useState('');
+  const [displaySSN, setDisplaySSN] = useState("");
+
+
+  useEffect(() => {
+    let displayValue = "";
+    if(ssnWatch) {
+        let value = ssnWatch.replace(/\D/g, ""); // Remove all non-numeric characters
+        value = value.replace(/^(\d{3})(\d)/g,"$1-$2"); // Add the first hyphen after the third digit
+        value = value.replace(/-(\d{2})(\d)/,"-$1-$2"); // Add the second hyphen after the fifth digit
+        value = value.substring(0, 11); // Maximum SSN length is 11 characters (9 digits + 2 hyphens)
+        if (value.length > 0) {
+            displayValue = "*".repeat(value.length - 1) + value.slice(-1);
+        }
+        setDisplaySSN(displayValue);
+    }
+}, [ssnWatch]);
+
+
+  const handleSSNInput = (event) => {
+    setValue('applicant.Ssn', event.target.value);
+};
 
   const handleSSNChange = (event) => {
     let value = event.target.value;
     value = value.replace(/\D/g, ""); // Remove all non-numeric characters
     value = value.replace(/^(\d{3})(\d)/g,"$1-$2"); // Add the first hyphen after the third digit
     value = value.replace(/-(\d{2})(\d)/,"-$1-$2"); // Add the second hyphen after the fifth digit
-    setSSN(value.substring(0, 11)); // Maximum SSN length is 11 characters (9 digits + 2 hyphens)
-  }
+    value = value.substring(0, 11); // Maximum SSN length is 11 characters (9 digits + 2 hyphens)
+    setValue('applicant.Ssn', value);
+};
+
+  
+  
   const handleMonthlyPaymentChange = (event) => {
     let value = event.target.value;
     value = value.replace(/[^\d]/g, ""); // Remove all non-numeric characters
@@ -57,8 +83,23 @@ const ApplicantInfo = ({ formMethods }) => {
     <FormInput name="applicant.FirstName" register={register} requiredMessage="First Name is required" placeholder="First Name" errors={errors} />
       <FormInput name="applicant.LastName" register={register} requiredMessage="Name is required" placeholder="Last Name*" errors={errors} />
       <FormPhone name="applicant.Phone" register={register} requiredMessage="Phone Number is required" placeholder="Phone Number*" value={phone} onChange={handlePhoneChange} errors={errors} />
-      <FormDate name="applicant.Dob" register={register} requiredMessage="Date of Birth is required" placeholder="Date of Birth*" errors={errors} />
-      <FormSSN name="applicant.Ssn" register={register} requiredMessage="SSN is required" placeholder="Social Security Number*" value={ssn} onChange={handleSSNChange} errors={errors} />
+      <FormEmail
+          name="applicant.Email"
+          register={register}
+          requiredMessage="Email is required"
+          placeholder="Email*"
+          errors={errors}
+        />      <FormDate name="applicant.Dob" register={register} requiredMessage="Date of Birth is required" placeholder="Date of Birth*" errors={errors} />
+<FormSSN 
+  name="applicant.Ssn" 
+  control={control}
+  requiredMessage="SSN is required" 
+  placeholder="Social Security Number*" 
+  errors={errors} 
+/>
+
+
+
     </div>
     <hr className="my-4" />
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Select from "react-select";
-import { FiUser, FiAtSign, FiKey, FiEdit, FiSave } from "react-icons/fi";
+import { FiUser, FiAtSign, FiKey, FiEdit, FiSave, FiX } from "react-icons/fi";
 import { doc, updateDoc } from "firebase/firestore";
 import { firestore } from "../../../../firebaseConfig";
 
@@ -20,11 +20,15 @@ const UserCard = ({ user, isEvenRow }) => {
     });
     setIsEditing(false);
   };
-
+  const handleCancel = () => {
+    // Reset the editedUser state to the initial user data
+    setEditedUser(user);
+    setIsEditing(false);
+  };
   return (
     <div
-      className={`bg-card p-4 rounded-lg mb-2 flex items-center font-regular ${
-        isEvenRow ? "bg-card" : "bg-cardAlt"
+      className={`p-4 rounded-lg mb-2 flex items-center ${
+        isEvenRow ? "bg-card" : "bg-card"
       }`}
     >
       <FiUser className="mr-2 text-2xl text-cyan-500 font-bold" />
@@ -36,7 +40,7 @@ const UserCard = ({ user, isEvenRow }) => {
             onChange={(e) =>
               setEditedUser({ ...editedUser, firstName: e.target.value })
             }
-            className="bg-transparent border-b-2 focus:outline-none"
+            className="p-1 border-2 border-cardAlt rounded-md bg-transparent focus:outline-none"
           />
         ) : (
           <p>{editedUser.firstName}</p>
@@ -49,7 +53,7 @@ const UserCard = ({ user, isEvenRow }) => {
             onChange={(e) =>
               setEditedUser({ ...editedUser, lastName: e.target.value })
             }
-            className="bg-transparent border-b-2 focus:outline-none"
+            className="p-1 border-2 border-cardAlt rounded-md bg-transparent focus:outline-none focus:ring-cyan-500 focus:ring-"
           />
         ) : (
           <p>{editedUser.lastName}</p>
@@ -64,7 +68,7 @@ const UserCard = ({ user, isEvenRow }) => {
             onChange={(e) =>
               setEditedUser({ ...editedUser, email: e.target.value })
             }
-            className="bg-transparent border-b-2 focus:outline-none"
+            className="p-1 border-2 border-cardAlt rounded-md bg-transparent focus:outline-none"
           />
         ) : (
           <p>{editedUser.email}</p>
@@ -73,30 +77,42 @@ const UserCard = ({ user, isEvenRow }) => {
         <FiKey className="mr-2 -ml-7 text-cyan-500 font-bold" />
 
         {isEditing ? (
-          <Select
-            value={editedUser.isAdmin ? { value: true, label: "Admin" } : { value: false, label: "User" }}
-            onChange={(selectedOption) =>
-              setEditedUser({ ...editedUser, isAdmin: selectedOption.value })
-            }
-            options={[
-              { value: true, label: "Admin" },
-              { value: false, label: "User" },
-            ]}
-            className="w-24"
-          />
+         <Select
+         value={editedUser.isAdmin ? { value: true, label: "Admin" } : { value: false, label: "User" }}
+         onChange={(selectedOption) =>
+             setEditedUser({ ...editedUser, isAdmin: selectedOption.value })
+         }
+         options={[
+             { value: true, label: "Admin" },
+             { value: false, label: "User" },
+         ]}
+         styles={{
+             control: (provided) => ({
+                 ...provided,
+                 backgroundColor: '#222131', // Change to desired background color
+                 color: '#FFFFFF' // Change to desired text color
+             }),
+         }}
+     />
+     
         ) : (
           <p>{editedUser.isAdmin ? "Admin" : "User"}</p>
         )}
 
-        {isEditing ? (
-          <button onClick={handleSave} className="text-cyan-500">
-            <FiSave />
-          </button>
-        ) : (
-          <button onClick={() => setIsEditing(true)} className="text-cyan-500">
-            <FiEdit />
-          </button>
-        )}
+{isEditing ? (
+      <>
+        <button onClick={handleSave} className="text-cyan-500">
+          <FiSave />
+        </button>
+        <button onClick={handleCancel} className="text-red-500 ml-2"> {/* Added margin for visual separation */}
+          <FiX /> {/* This will be the cancel icon */}
+        </button>
+      </>
+    ) : (
+      <button onClick={() => setIsEditing(true)} className="text-cyan-500">
+        <FiEdit />
+      </button>
+    )}
       </div>
     </div>
  

@@ -86,7 +86,7 @@ const SimpleForm = ({ formMethods }) => {
   return (
     <form className="p-4 space-y-4">
       <h2 className="text-2xl text-cyan-500 mb-10 font-semibold">
-        Loan Request
+        Qualify for Financing
       </h2>
       <div className="flex flex-wrap -mx-3">
         <FormInput

@@ -14,9 +14,9 @@ export default {
         '8': '8px',
       },
       backgroundColor: {
-        admin: "#222131",
-        card: "#39394B",
-        cardAlt: "#4F4F66",
+        admin: "#1f2335",
+        card: "#2f334a",
+        cardAlt: "#444963",
       },
       textColor: {
         "your-custom-color": "#123456",

@@ -4,7 +4,6 @@ import { firestore } from "../../firebaseConfig";
 import UserCard from "../../src/components/admin/adminSettings/UserCard";
 // import UserDetails from "../../src/components/admin/adminManagement/UserDetails";
 
-
 const AdminManagement = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [addingUser, setAddingUser] = useState(false);
@@ -14,7 +13,6 @@ const AdminManagement = () => {
   const fetchData = async () => {
     let usersRef = collection(firestore, "users");
 
-   
     // if the view is set to admin, then query only admin users
     if (isAdminView) {
       usersRef = query(usersRef, where("isAdmin", "==", true));
@@ -23,9 +21,9 @@ const AdminManagement = () => {
     }
 
     const usersSnapshot = await getDocs(usersRef);
-    
+
     setData(usersSnapshot.docs.map((doc) => doc.data()));
-    console.log(data)
+    console.log(data);
   };
 
   useEffect(() => {
@@ -38,15 +36,23 @@ const AdminManagement = () => {
         <div className="mx-12 mt-8 w-full flex-grow flex flex-col overflow">
           <header className="flex mb-4 justify-between items-center">
             <h1 className="mt-8 text-2xl font-semibold">User Management</h1>
-            <div>
+            <div className="flex">
               <button
-                className={isAdminView ? "bg-cyan-600 text-white" : "bg-gray-600 text-white"}
+                className={
+                  isAdminView
+                    ? "bg-cyan-600 text-white rounded-l px-4 py-2"
+                    : "bg-gray-600 text-white rounded-l px-4 py-2"
+                }
                 onClick={() => setIsAdminView(true)}
               >
                 Admins
               </button>
               <button
-                className={isAdminView ? "bg-gray-600 text-white" : "bg-cyan-600 text-white"}
+                className={
+                  isAdminView
+                    ? "bg-gray-600 text-white rounded-r px-4 py-2"
+                    : "bg-cyan-600 text-white rounded-r px-4 py-2"
+                }
                 onClick={() => setIsAdminView(false)}
               >
                 Non-Admins
@@ -65,23 +71,8 @@ const AdminManagement = () => {
             />
           ))}
         </div>
-{/* 
-        {selectedUser && !addingUser && (
-          <UserDetails
-            user={selectedUser}
-            onClose={() => setSelectedUser(null)}
-          />
-        )}
-
-        {addingUser && (
-          <AddUser
-            onClose={() => setAddingUser(false)}
-            onAdd={() => {
-              setAddingUser(false);
-              fetchData(); // Refresh the user data
-            }}
-          />
-        )} */}
+        
+      
       </div>
     </div>
   );

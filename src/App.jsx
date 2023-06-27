@@ -13,7 +13,7 @@ import AdminInvoices from "./screens/AdminInvoices";
 import AdminManagement from "./screens/AdminManagement";
 import UserLayout from "./layouts/users/UserLayout";
 import UserLanding from "./screens/UserLanding";
-import UserApplication from "./screens/UserApplication";
+// import UserApplication from "./screens/UserApplication";
 import UserSimpleApplication from "./screens/UserSimpleApplication";
 import UserDash from "./screens/UserDash";
 import UserPayment from "./screens/UserPayment";
