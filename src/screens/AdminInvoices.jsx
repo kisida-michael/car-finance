@@ -131,7 +131,7 @@ const AdminInvoices = () => {
     {
       columns: tableColumns,
       data: searchedData !== null ? searchedData : data,
-      initialState: { pageIndex: 0, pageSize: 20 },
+      initialState: { pageIndex: 0, pageSize: 12 },
     },
     useSortBy,
     usePagination

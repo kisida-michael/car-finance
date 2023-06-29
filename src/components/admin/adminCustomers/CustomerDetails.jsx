@@ -70,7 +70,7 @@ const CustomerDetails = ({ customer, onClose }) => {
             {customer.applicant.fullName}
           </h2>
         </div>
-        <Section title="Contact Info">
+        <Section title="Personal Info">
           <div className="my-2 flex items-center ">
             <FiMail className="mr-2" /> {customer.applicant.Email}
           </div>

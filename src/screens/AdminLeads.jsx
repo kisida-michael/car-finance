@@ -44,12 +44,10 @@ const AdminLeads = () => {
 
   const [data, setData] = useState([]); // Will hold the leads data from Firestore
 
-  console.log("leads");
   const fetchData = async () => {
     const querySnapshot = await getDocs(collection(firestore, "leads"));
 
     const leads = querySnapshot.docs.map((doc) => doc.data());
-    console.log(leads);
     setData(leads); // Set the data to the customers array
 
     setIsDataFetched(true); // Set isDataFetched to true after the data is fetched
@@ -63,7 +61,6 @@ const AdminLeads = () => {
     debounce((search) => {
       if (isDataFetched) {
         // Only run search if data has been fetched        console.log('Searching...', search)
-        console.log("Searching...", search);
 
         setSearchedData(
           data.filter(
