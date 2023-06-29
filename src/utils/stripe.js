@@ -1,80 +1,82 @@
 import Stripe from 'stripe';
 
 const stripe = new Stripe('sk_test_51MtDFfFpXNbzjj8lin0xmRIhxg8vmqrFhyWi5KcRGddoJDyqAd83BVF6U4wCENIb6GdSDVNLmUDP3JxF4S1A3pzq003hFZ0IxG');
-export const createStripeCustomer = async (customer, createDownPayment, createOriginationFee) => {
+export const createStripeCustomer = async (customer, vehicle, createDownPayment, createOriginationFee) => {
   try {
+    console.log("Creating Stripe customer:", customer)
+    console.log("Creating Stripe vehicle:", vehicle)
     const stripeCustomer = await stripe.customers.create({
-      name: `${customer.firstName} ${customer.lastName}`,
-      email: customer.email,
-      description: 'Customer for ' + customer.email,
+      name: `${customer.FirstName} ${customer.LastName}`,
+      email: customer.Email,
+      description: 'Customer for ' + customer.Email,
     });
 
     if (createDownPayment) {
-      const downPaymentProduct = await stripe.products.create({
-        name: `Down Payment  - ${customer.firstName} ${customer.lastName}`,
+      const DownPaymentProduct = await stripe.products.create({
+        name: `Down Payment  - ${customer.FirstName} ${customer.LastName}`,
         description: 'Down payment for a car',
       });
 
-      const downPaymentPrice = await stripe.prices.create({
-        unit_amount: customer.downPayment * 100, // Convert to cents
+      const DownPaymentPrice = await stripe.prices.create({
+        unit_amount: vehicle.DownPayment * 100, // Convert to cents
         currency: 'usd',
-        product: downPaymentProduct.id,
+        product: DownPaymentProduct.id,
       });
 
-      const downPaymentInvoice = await stripe.invoices.create({
+      const DownPaymentInvoice = await stripe.invoices.create({
         customer: stripeCustomer.id,
         collection_method: 'send_invoice',
         metadata: {
-          type: 'downpayment', // Custom field: type = downpayment
+          type: 'DownPayment', // Custom field: type = DownPayment
         },
         days_until_due: 30, // Change this based on your business logic
       });
-      console.log("Down Payment Invoice Created:", downPaymentInvoice);
+      console.log("Down Payment Invoice Created:", DownPaymentInvoice);
 
 
-      const downPaymentInvoiceItem = await stripe.invoiceItems.create({
+      const DownPaymentInvoiceItem = await stripe.invoiceItems.create({
         customer: stripeCustomer.id,
-        price: downPaymentPrice.id,
-        invoice: downPaymentInvoice.id,
+        price: DownPaymentPrice.id,
+        invoice: DownPaymentInvoice.id,
       });
-      console.log("Down Payment Invoice Item Created:", downPaymentInvoiceItem);
+      console.log("Down Payment Invoice Item Created:", DownPaymentInvoiceItem);
 
-      const finalizedDownPaymentInvoice = await stripe.invoices.finalizeInvoice(downPaymentInvoice.id);
+      const finalizedDownPaymentInvoice = await stripe.invoices.finalizeInvoice(DownPaymentInvoice.id);
       console.log("Down Payment Invoice Finalized:", finalizedDownPaymentInvoice);
       console.log(`Down Payment Invoice URL: ${finalizedDownPaymentInvoice.hosted_invoice_url}`);
     }
 
     if (createOriginationFee) {
-      const originationFeeProduct = await stripe.products.create({
-        name: `Origination Fee - ${customer.firstName} ${customer.lastName}`,
+      const OriginationFeeProduct = await stripe.products.create({
+        name: `Origination Fee - ${customer.FirstName} ${customer.LastName}`,
         description: 'Origination fee for a car',
       });
 
-      const originationFeePrice = await stripe.prices.create({
-        unit_amount: customer.originationFee * 100, // Convert to cents
+      const OriginationFeePrice = await stripe.prices.create({
+        unit_amount: vehicle.OriginationFee * 100, // Convert to cents
         currency: 'usd',
-        product: originationFeeProduct.id,
+        product: OriginationFeeProduct.id,
       });
 
-      const originationFeeInvoice = await stripe.invoices.create({
+      const OriginationFeeInvoice = await stripe.invoices.create({
         customer: stripeCustomer.id,
         collection_method: 'send_invoice',
         metadata: {
-          type: 'originationFee', // Custom field: type = originationFee
+          type: 'OriginationFee', // Custom field: type = OriginationFee
         },
         days_until_due: 30, // Change this based on your business logic
       });
-      console.log("Origination Fee Invoice Created:", originationFeeInvoice);
+      console.log("Origination Fee Invoice Created:", OriginationFeeInvoice);
 
-      const originationFeeInvoiceItem = await stripe.invoiceItems.create({
+      const OriginationFeeInvoiceItem = await stripe.invoiceItems.create({
         customer: stripeCustomer.id,
-        price: originationFeePrice.id,
-        invoice: originationFeeInvoice.id,
+        price: OriginationFeePrice.id,
+        invoice: OriginationFeeInvoice.id,
       });
 
-      console.log("Origination Fee Invoice Item Created:", originationFeeInvoiceItem);
+      console.log("Origination Fee Invoice Item Created:", OriginationFeeInvoiceItem);
 
-      const finalizedOriginationFeeInvoice = await stripe.invoices.finalizeInvoice(originationFeeInvoice.id);
+      const finalizedOriginationFeeInvoice = await stripe.invoices.finalizeInvoice(OriginationFeeInvoice.id);
       console.log("Origination Fee Invoice Finalized:", finalizedOriginationFeeInvoice);
 
       console.log(`Origination Fee Invoice URL: ${finalizedOriginationFeeInvoice.hosted_invoice_url}`);
@@ -96,5 +98,4 @@ export const deleteStripeCustomer = async (stripeCustomerId) => {
     throw error;
   }
 }
-
 
