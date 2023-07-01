@@ -119,7 +119,7 @@ const Login = ({ darkMode }) => {
   return (
     <div
       className={`min-h-screen ${
-        darkMode ? 'bg-gray-900' : 'bg-cyan-50'
+        darkMode ? 'bg-gray-900' : 'bg-client'
       } `}
     >
     <LandingHeader/>

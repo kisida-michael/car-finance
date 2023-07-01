@@ -1,10 +1,26 @@
-// index.js
-const functions = require('firebase-functions');
-const {stripeWebhook} = require("./src/stripe/invoices");
-const stripeAPI = require('./src/stripe/stripeAPI');
-const admin = require('./src/firebaseAdmin');
+/**
+ * Import function triggers from their respective submodules:
+ *
+ * const {onCall} = require("firebase-functions/v2/https");
+ * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
+ *
+ * See a full list of supported triggers at https://firebase.google.com/docs/functions
+ */
 
-exports.stripeWebhook = stripeWebhook;
-exports.getStripeCustomer = functions.https.onCall(stripeAPI.getStripeCustomer);
-exports.getPaymentMethods = functions.https.onCall(stripeAPI.getPaymentMethods);
-exports.getInvoices = functions.https.onCall(stripeAPI.getInvoices);
+const {onRequest} = require("firebase-functions/v2/https");
+const logger = require("firebase-functions/logger");
+
+
+exports.helloWorld = onRequest({
+    minInstances: 1,
+    
+
+    timeoutSeconds: 60,
+
+
+
+},(request, response) => {
+    
+  logger.info("Hello logs!", {structuredData: true});
+  response.send("Hello from Firebase!");
+});

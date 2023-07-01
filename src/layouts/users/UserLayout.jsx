@@ -6,9 +6,9 @@ const AdminLayout = ({ children }) => {
   return (
     
 
-    <div className="flex">
+    <div className="flex bg-client">
      
-      <div className="w-full  bg-admin max-h-screen overflow-x-hidden">
+      <div className="w-full  bg-client min-h-screen">
       <UserPortalHeader/>
         {children}
       </div>

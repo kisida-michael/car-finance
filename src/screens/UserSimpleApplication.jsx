@@ -36,7 +36,7 @@ const UserSimpleApplication = () => {
     }
   };
   return (
-    <div className="flex flex-col min-h-screen bg-cyan-50">
+    <div className="flex flex-col min-h-screen bg-client">
       <LandingHeader />
 
       <div className="lg:w-2/5 md:w-3/4 justify-center items-center mx-auto mt-20 bg-white rounded-md p-4 shadow-md mb-20">

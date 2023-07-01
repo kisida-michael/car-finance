@@ -57,3 +57,18 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(105, 105, 105, 0.6); /* Adjust the color of the scrollbar handle on hover */
 }
+
+.menu-enter {
+  transform: scaleY(0);
+}
+.menu-enter-active {
+  transform: scaleY(1);
+  transition: transform 300ms;
+}
+.menu-exit {
+  transform: scaleY(1);
+}
+.menu-exit-active {
+  transform: scaleY(0);
+  transition: transform 300ms;
+}

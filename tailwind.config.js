@@ -14,6 +14,7 @@ export default {
         '8': '8px',
       },
       backgroundColor: {
+        client: '#F1F4FA',
         admin: "#1f2335",
         card: "#2f334a",
         cardAlt: "#444963",

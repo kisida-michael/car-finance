@@ -17,7 +17,7 @@ import UserLanding from "./screens/UserLanding";
 import UserSimpleApplication from "./screens/UserSimpleApplication";
 import UserDash from "./screens/UserDash";
 import UserPayment from "./screens/UserPayment";
-
+import UserBilling from "./screens/UserBilling";
 import { auth, firestore } from "../firebaseConfig";
 import "./index.css";
 import AdminLeads from "./screens/AdminLeads";
@@ -39,6 +39,7 @@ function App() {
           const userData = userDocSnapshot.data();
           setCurrentUser({
             ...user,
+            customerID: userData.cusID,
             uid: user.uid,
             isAdmin: userData.isAdmin,
             firstName: userData.firstName,
@@ -109,6 +110,8 @@ function App() {
                 <Routes>
                   <Route path="/dash" element={<UserDash />} />
                   <Route path="/application" element={<UserPayment />} />
+                  <Route path="/billing" element={<UserBilling />} />
+                  
                 </Routes>
               </UserLayout>
             }
