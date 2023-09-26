@@ -31,15 +31,14 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigate("/admin");
-      })
-      .catch((error) => {
-        console.log("Error signing out:", error);
-      });
+  const handleSignOut = async () => {
+    try {
+      await auth.signOut();
+      navigate("/admin");
+      useUserStore.getState().setCurrentUser(null);
+    } catch (error) {
+      console.log("Error signing out:", error);
+    }
   };
 
   return (

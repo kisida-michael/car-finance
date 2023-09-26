@@ -90,14 +90,14 @@ const SimpleForm = ({ formMethods }) => {
       </h2>
       <div className="flex flex-wrap -mx-3">
         <FormInput
-          name="lead.name"
+          name="name"
           register={register}
           requiredMessage="Name is required"
           placeholder="Name"
           errors={errors}
         />
         <FormPhone
-          name="lead.phoneNumber"
+          name="phoneNumber"
           register={register}
           requiredMessage="Phone Number is required"
           placeholder="Phone Number*"
@@ -106,14 +106,14 @@ const SimpleForm = ({ formMethods }) => {
           errors={errors}
         />
         <FormEmail
-          name="lead.email"
+          name="email"
           register={register}
           requiredMessage="Email is required"
           placeholder="Email"
           errors={errors}
         />
         <FormInput
-          name="lead.loanAmount"
+          name="loanAmount"
           register={register}
           requiredMessage="Loan amount is required"
           placeholder="Loan Amount"
@@ -123,7 +123,7 @@ const SimpleForm = ({ formMethods }) => {
           prefix="$"
         />
         <FormInput
-          name="lead.downpayment"
+          name="downpayment"
           register={register}
           requiredMessage="Down payment is required"
           placeholder="Down payment"
@@ -133,7 +133,7 @@ const SimpleForm = ({ formMethods }) => {
           prefix="$"
         />
         <FormInput
-          name="lead.monthlyIncome"
+          name="monthlyIncome"
           register={register}
           requiredMessage="Monthly income is required"
           placeholder="Monthly Income"
@@ -146,7 +146,7 @@ const SimpleForm = ({ formMethods }) => {
       <hr className="my-4" />
 
       <FormCheckbox
-        name="lead.TradeIn"
+        name="tradeIn"
         control={control}
         label="Trade In"
         onChange={toggleTradeInFields}
@@ -156,14 +156,14 @@ const SimpleForm = ({ formMethods }) => {
         {isTradeInFieldsVisible && (
           <>
             <FormInput
-              name="lead.tradeInYear"
+              name="tradeInYear"
               register={register}
               requiredMessage="Year is required"
               placeholder="Year"
               errors={errors}
             />
             <FormSelect
-              name="lead.tradeInMake"
+              name="tradeInMake"
               control={control}
               requiredMessage="Make is required"
               options={carMakes}
@@ -171,7 +171,7 @@ const SimpleForm = ({ formMethods }) => {
               errors={errors}
             />
             <FormInput
-              name="lead.tradeInModel"
+              name="tradeInModel"
               register={register}
               requiredMessage="Model is required"
               placeholder="Model"
@@ -179,7 +179,7 @@ const SimpleForm = ({ formMethods }) => {
             />
 
             <FormInput
-              name="lead.tradeInMiles"
+              name="tradeInMiles"
               register={register}
               requiredMessage="Miles is required"
               placeholder="Miles"
@@ -188,21 +188,21 @@ const SimpleForm = ({ formMethods }) => {
               errors={errors}
             />
             <FormInput
-              name="lead.tradeInTrim"
+              name="tradeInTrim"
               register={register}
               requiredMessage="Trim is required"
               placeholder="Trim"
               errors={errors}
             />
             <FormInput
-              name="lead.tradeInColor"
+              name="tradeInColor"
               register={register}
               requiredMessage="Color is required"
               placeholder="Color"
               errors={errors}
             />
             <FormInput
-              name="lead.tradeInVin"
+              name="tradeInVin"
               register={register}
               requiredMessage="VIN is required"
               placeholder="VIN"

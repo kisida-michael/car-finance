@@ -159,9 +159,9 @@ const AdminInvoices = () => {
                   />
                 )}
               </div>
-              <button className="ml-4 bg-cyan-600 text-gray-200 px-4 py-2 rounded-lg hover:bg-cyan-500 transition duration-200 ease-in-out">
+              {/* <button className="ml-4 bg-cyan-600 text-gray-200 px-4 py-2 rounded-lg hover:bg-cyan-500 transition duration-200 ease-in-out">
                 Add Invoice
-              </button>
+              </button> */}
             </div>
           </header>
           {headerGroups.map((headerGroup) => (

@@ -138,14 +138,9 @@ const AddCustomer = () => {
         const userDocRef = doc(usersCollection, user.uid);
         await setDoc(userDocRef, newUser);
 
-        const stripeCustomerId = await createStripeCustomer(
-          newCustomer,
-          newVehicleInfo,
-          newVehicleInfo.IsDownPayment,
-          newVehicleInfo.IsOriginationFee
-        );
+      
 
-        restFormValues.stripeCustomerId = stripeCustomerId;
+     
         restFormValues.uid = user.uid;
         restFormValues.cusID = tempId;
 

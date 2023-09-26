@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getAuth, GoogleAuthProvider, connectAuthEmulator } from "firebase/auth";
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBs25PvCdKqlR40pwk5dD-A6-EbBfZJ1W4",
@@ -16,5 +16,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const firestore = getFirestore(app);
-
+connectFirestoreEmulator(firestore, "localhost", 8080);
+connectAuthEmulator(auth, "http://localhost:9099");
 export { app, auth, provider, firestore };

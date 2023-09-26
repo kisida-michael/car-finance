@@ -23,12 +23,7 @@ const VehicleInfo = ({ formMethods,}) => {
         <FormInput name= "vehicle.OriginationFee" register={register} requiredMessage="Origination Fee is required" placeholder="Origination Fee" errors={errors} />
         <FormSelect name="vehicle.Make" control={control} requiredMessage="Make is required" options={carMakes} placeholder="Make - Select a Car Make" errors={errors} />
       </div>
-      <FormCheckbox name="vehicle.IsDownPayment" control={control} label="Create Down Payment Invoice" errors={errors}/>
-      <hr className='opacity-20'/>
-      <FormCheckbox name="vehicle.IsOriginationFee" control={control} label="Create Origination Fee" errors={errors}/>
-      <hr className='opacity-20'/>
-      <FormCheckbox name="vehicle.IsMontlyPayment" control={control} label="Create Monthly Payment" errors={errors}/>
-      <hr className='opacity-20'/>
+    
 
     </form>
   );

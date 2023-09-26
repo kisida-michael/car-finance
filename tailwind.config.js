@@ -15,9 +15,9 @@ export default {
       },
       backgroundColor: {
         client: '#F1F4FA',
-        admin: "#1f2335",
-        card: "#2f334a",
-        cardAlt: "#444963",
+        admin: "#121212",
+        card: "#212121",
+        cardAlt: "#323232",
       },
       textColor: {
         "your-custom-color": "#123456",
@@ -34,5 +34,9 @@ export default {
       boxShadow: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
     },
   },
-  plugins: [require("flowbite/plugin")],
+  plugins: [require("flowbite/plugin"),
+  
+
+],
+  
 };

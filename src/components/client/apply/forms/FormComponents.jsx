@@ -121,6 +121,7 @@ export const FormCheckbox = ({ name, control, label, onChange, errors }) => {
         <Controller
           control={control}
           name={name}
+          defaultValue={false} 
           render={({ field }) => (
             <>
               <input 

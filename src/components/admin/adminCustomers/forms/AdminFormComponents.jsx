@@ -8,12 +8,15 @@ const getNestedObject = (nestedObj, pathArr) => {
 }
 
 
+
+
 export const FormInput = ({ name, register, requiredMessage, placeholder, onChange, value, errors, prefix }) => {
   // Split the name and destructure the elements
   const [parentName, childName] = name.split('.');
 
+  
   return (
-    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-6 text-gray-300">
+    <div className="w-full  px-3 mb-6 md:mb-6 text-gray-300">
       <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2">{placeholder}</label>
       <div className="relative">
         {prefix && <span className="text-cyan-500 absolute inset-y-0 left-0 flex items-center pl-2">{prefix}</span>}
@@ -25,7 +28,7 @@ export const FormInput = ({ name, register, requiredMessage, placeholder, onChan
           value={value} 
         />
       </div>
-      {errors[parentName] && errors[parentName][childName] && <p className="text-red-500">{errors[parentName][childName].message}</p>}
+      {getNestedObject(errors, [parentName, childName]) && <p className="text-red-500">{getNestedObject(errors, [parentName, childName]).message}</p>}
     </div>
   )
 };
@@ -55,6 +58,32 @@ export const FormSelect = ({ name, control, requiredMessage, placeholder, errors
     </div>
   );
 };
+
+export const FormSelectFull = ({ name, control, requiredMessage, placeholder, errors, options }) => {
+  const [parentName, childName] = name.split('.');
+  return (
+    <div className="w-full px-3 mb-6 md:mb-6 text-gray-300">
+      <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2">{placeholder}</label>
+      <Controller 
+        control={control}
+        name={name}
+        rules={{ required: requiredMessage }}
+        render={({ field }) => (
+        <select {...field} className="border-t-0 border-r-0 border-l-0 border-b-3 border-cardAlt bg-admin p-2 w-full focus:border-cyan-500 focus:outline-none focus:ring-0">
+            <option value="">{placeholder}</option>
+            {options.map(option => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        )}
+      />
+      {getNestedObject(errors, [parentName, childName]) && <p className="text-red-500">{getNestedObject(errors, [parentName, childName]).message}</p>}
+    </div>
+  );
+};
+
 export const FormDate = ({ name, register, requiredMessage, placeholder, errors }) => {
   const [parentName, childName] = name.split('.');
   return (

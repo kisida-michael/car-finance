@@ -12,6 +12,7 @@ import { doc, deleteDoc } from "firebase/firestore";
 import { firestore } from "../../../../firebaseConfig";
 
 const leadsCard = ({ leads, fetchData, onClick, onOpenModal, isEvenRow }) => {
+  
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {

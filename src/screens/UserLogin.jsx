@@ -52,6 +52,7 @@ const Login = ({ darkMode }) => {
           isAdmin: userData.isAdmin,
           firstName: userData.firstName,
           lastName: userData.lastName,
+          customerID: userData.cusID,
         });
         if (userData.isAdmin) {
           navigate("/admin/dash");
@@ -98,6 +99,7 @@ const Login = ({ darkMode }) => {
           ...googleUser,
           uid: googleUser.uid,
           isAdmin: userData.isAdmin,
+          customerID: userData.cusID,
         });
         if (userData.isAdmin) {
           navigate("/admin/dash");

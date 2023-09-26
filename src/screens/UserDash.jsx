@@ -10,11 +10,11 @@ import {
 } from "firebase/firestore";
 import { firestore } from "../../firebaseConfig";
 import TotalBalance from "../components/client/Dashboard/TotalBalance";
-import PaymentMethods from "../components/client/Dashboard/PaymentMethods";
 import RecentInvoices from "../components/client/Dashboard/RecentInvoices";
 const UserDash = () => {
   const { currentUser } = useUserStore();
 
+   
   const [invoices, setInvoices] = useState([]);
   const [totalBalance, setTotalBalance] = useState(0);
   const [stripeCustomer, setStripeCustomer] = useState(null);
@@ -23,7 +23,8 @@ const UserDash = () => {
     const cusRef = doc(firestore, "customers", currentUser.customerID);
     const cusSnap = await getDoc(cusRef);
     const cusData = cusSnap.data();
-
+     console.log(cusData)
+     setStripeCustomer(cusData.stripeCustomerID)
     // Create a reference to the 'invoices' subcollection of the current customer
     const invoicesRef = collection(cusRef, "invoices");
     // No need to query because you're already referencing the specific customer's invoices
@@ -32,7 +33,7 @@ const UserDash = () => {
     setInvoices(
       invoicesSnapshot.docs.map((doc) => {
           const data = doc.data();
-  
+          // console.log(data);
           // If dueDate exists and is a Timestamp, convert to Date
           if (data.dueDate) {
               const date = new Date(data.dueDate * 1000); // Multiply by 1000 to convert from seconds to milliseconds
@@ -44,6 +45,15 @@ const UserDash = () => {
                   year: 'numeric'
               });
           }
+
+          if (data.type === "downPayment") {
+            data.type = "Down Payment";
+
+          }
+          if (data.type === "monthlyPayment") {
+            data.type = "Monthly Payment";
+
+          }
        
           return data;
       })
@@ -51,13 +61,13 @@ const UserDash = () => {
   
   };
 
-  console.log(invoices);
+
   useEffect(() => {
     const balance = invoices.reduce((total, invoice) => {
       if (invoice.paid) {
         return total;
       } else {
-        return total + invoice.amountDue;
+        return total + invoice.subtotal;
       }
     }, 0);
     setTotalBalance(balance);
@@ -67,8 +77,14 @@ const UserDash = () => {
     getInvoices();
   }, [currentUser]);
 
+  if (!currentUser || !currentUser.customerID) {
+    return <p>Loading user details...</p>;
+  }
+  
   return (
+    
     <div className="h-max flex flex-col sm:flex-row">
+      
     <div className="mt-14 w-full sm:w-7/12 mx-auto">
         <h1 className="text-2xl font-semibold text-cyan-500 mb-6 mx-4 sm:mx-0">
             {currentUser.firstName} {currentUser.lastName}'s Dashboard
@@ -76,11 +92,9 @@ const UserDash = () => {
 
         <div className="flex flex-col sm:flex-row space-y-12 sm:space-y-0 sm:space-x-8 mx-4 sm:mx-0">
             <div className="flex-grow">
-                <TotalBalance balance={totalBalance} className="" />
+            <TotalBalance balance={totalBalance} dueDate={invoices[0]?.dueDate ?? 'N/A'}  isLoading={!invoices.length} />
             </div>
-            <div className="w-full sm:w-8/12">
-                <PaymentMethods currentUser= {currentUser}/>
-            </div>
+            
         </div>
 
         <div className=" my-4 sm:my-8 mx-4 sm:mx-0">

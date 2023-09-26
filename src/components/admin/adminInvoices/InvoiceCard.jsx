@@ -51,7 +51,7 @@ const InvoiceCard = ({ invoice, isEvenRow, }) => {
         </div>
         <div className="flex-1 flex items-center space-x-2">
           <FiDollarSign className="mr- -ml-7 text-cyan-500 font-bold" />
-          <div>{invoice.amountDue.toFixed(2)}</div>
+          <div>{invoice.subtotal.toFixed(2)}</div>
 
         </div>
         <div className='flex-1'>

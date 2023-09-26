@@ -31,6 +31,10 @@ const tableColumns = [
     Header: "Phone",
     accessor: "applicant.Phone",
   },
+  {
+    Header: "Status",
+    accessor: "status",
+  }
 ];
 
 const AdminCustomers = () => {

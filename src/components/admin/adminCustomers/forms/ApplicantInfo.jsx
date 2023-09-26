@@ -114,6 +114,7 @@ const ApplicantInfo = ({ formMethods }) => {
       <FormSelect name="applicant.HousingStatus" control={control} requiredMessage="Housing status is required" options={["Rent", "Own"]} placeholder="Rent/Own - Select a Status*" errors={errors} />
       <FormSelect name="applicant.ResidenceDuration" control={control} requiredMessage="Residence duration is required" options={residenceYears} placeholder="Residence Duration - Select Years*" errors={errors} />
       <FormInput name="applicant.MonthlyPayment" register={register} requiredMessage="Monthly Payment is required" placeholder="Monthly Payment*" value={monthlyPayment} onChange={handleMonthlyPaymentChange} errors={errors} />
+      <FormInput name= "applicant.insurancePolicy" register={register} requiredMessage="Insurance Policy is required" placeholder="Insurance Policy Number*" errors={errors} />
 
     </div>
 

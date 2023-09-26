@@ -5,7 +5,8 @@ import SignUp from "./screens/Signup";
 import AdminLogin from "./screens/AdminLogin";
 import UserLogin from "./screens/UserLogin";
 import { doc, getDoc, getDocFromServer } from "firebase/firestore";
-
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import AdminLayout from "./layouts/admin/AdminLayout";
 import AdminDashboard from "./screens/AdminDashboard";
 import AdminCustomers from "./screens/AdminCustomers";
@@ -22,6 +23,10 @@ import { auth, firestore } from "../firebaseConfig";
 import "./index.css";
 import AdminLeads from "./screens/AdminLeads";
 
+
+const stripePromise = loadStripe("pk_test_51MtDFfFpXNbzjj8ldprPPGQN4G4xx5Xmn7lOqXfCKWQapQhOyEWcT9AC7QxuxtJ1RP8mg4Ai9z5VcfDr0a69B3mU00bnsipy9L");
+
+
 function App() {
   const setCurrentUser = useUserStore((state) => state.setCurrentUser);
   const setAuthReady = useUserStore((state) => state.setAuthReady);
@@ -32,8 +37,7 @@ function App() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        // User is signed in
-        const userRef = doc(firestore, "users", user.uid); // Assuming your user's collection is named 'users'
+        const userRef = doc(firestore, "users", user.uid);
         const userDocSnapshot = await getDoc(userRef);
         if (userDocSnapshot.exists()) {
           const userData = userDocSnapshot.data();
@@ -46,25 +50,14 @@ function App() {
             lastName: userData.lastName,
           });
         }
+        console.log("current user", user);
       } else {
-        // User is signed out
         setCurrentUser(null);
       }
-    });
-
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
       setAuthReady(true);
     });
-
-    return () => {
-      unsubscribe();
-    };
+  
+    return () => unsubscribe();
   }, []);
 
   if (!authReady) {
@@ -78,6 +71,8 @@ function App() {
   }
 
   return (
+    <Elements stripe={stripePromise}>
+
     <BrowserRouter>
       <div>
         <Routes>
@@ -119,6 +114,8 @@ function App() {
         </Routes>
       </div>
     </BrowserRouter>
+    </Elements>
+
   );
 }
 

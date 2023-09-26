@@ -20,14 +20,39 @@ const CustomerCard = ({
   isEvenRow,
 }) => {
   let [isOpen, setIsOpen] = useState(false);
+  console.log(customer)
+
 
   function closeModal() {
     setIsOpen(false);
   }
 
   function openModal() {
+
     setIsOpen(true);
   }
+
+  function getStatusColor(status) {
+    switch(status) {
+      case 'pending':
+        return 'bg-gray-400';
+      case 'late':
+        return 'bg-red-500';
+      case 'approved':
+      case 'on time':
+        return 'bg-green-500';
+      default:
+        return 'bg-admin'; // default color, you can change this
+    }
+  }
+  
+  function getStatusText(status) {
+    if(status) return status; // Return the actual status if it exists
+    return 'temp'; // Placeholder as mentioned
+  }
+
+  
+
   const deleteCustomer = async () => {
     try {
       // Close the confirmation dialog
@@ -77,7 +102,7 @@ const CustomerCard = ({
 
   return (
     <div
-      className={`bg-card p-2 h-[4.8vh] rounded-lg mb-2 flex items-center font-regular ${
+      className={`bg-card p-2 h-[4.8vh] rounded-md  mb-2 flex items-center font-regular ${
         isEvenRow ? "bg-card" : "bg-cardAlt"
       }`}
       // style={{ height: "4.5vh" }} // Change '10vh' to the desired height relative to the viewport height
@@ -95,9 +120,14 @@ const CustomerCard = ({
           <FiPhone className="mr-2 -ml-2 text-cyan-500 font-bold" />
           <div>{customer.applicant.Phone}</div>
         </div>
+        <div className="flex-1 flex items-center space-x-2">
+    <div className={` ml-20 text-xs px-2 py-1 rounded-full text-gray-500 ${getStatusColor(customer.status || 'temp')}`}>
+      {getStatusText(customer.status)}
+    </div>
+  </div>
       </div>
       <button
-        className="ml-4 mr-4 border-cyan-600 border-2 text-white px-4 py-[.2rem] rounded-lg hover:bg-cyan-500 hover:border-cyan-500 transition-all duration-200"
+        className="ml-4 mr-4 border-cyan-600 border-2 text-white px-4 py-[.2rem]  rounded-md hover:bg-cyan-500 hover:border-cyan-500 transition-all duration-200"
         onClick={onClick}
       >
         Select
@@ -112,7 +142,7 @@ const CustomerCard = ({
           </Menu.Button>
         </div>
         <Menu.Items className="absolute rounded-md right-0 w-28 mt-2 origin-top-right bg-[#1A1926]  divide-y divide-gray-600 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
-          <Menu.Item>
+          {/* <Menu.Item>
             {({ active }) => (
               <div
                 className={`w-full py-1 px-4 text-white  ${
@@ -125,7 +155,7 @@ const CustomerCard = ({
                 </div>
               </div>
             )}
-          </Menu.Item>
+          </Menu.Item> */}
           <Menu.Item>
             {({ active }) => (
               <button

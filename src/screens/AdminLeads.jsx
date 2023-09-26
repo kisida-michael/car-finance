@@ -3,6 +3,7 @@ import { useTable, useSortBy, usePagination } from "react-table";
 import { firestore } from "../../firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import LeadsCard from "../components/admin/adminLeads/LeadsCard";
+import LeadsDetails from "../components/admin/adminLeads/LeadsDetails";
 import {
   FiChevronDown,
   FiChevronUp,
@@ -49,7 +50,7 @@ const AdminLeads = () => {
 
     const leads = querySnapshot.docs.map((doc) => doc.data());
     setData(leads); // Set the data to the customers array
-
+    console.log(leads);
     setIsDataFetched(true); // Set isDataFetched to true after the data is fetched
   };
 
@@ -239,7 +240,7 @@ const AdminLeads = () => {
         )}
         {selectedleads && !addingleads && (
           <div className="w-full lg:w-1/3  ">
-            <leadsDetails
+            <LeadsDetails
               leads={selectedleads}
               onClose={() => setSelectedleads(null)}
             />
