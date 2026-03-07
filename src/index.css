@@ -1,35 +1,213 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Customize scrollbar */
+:root {
+  color-scheme: light;
+  --page-bg: #f5efe3;
+  --page-bg-strong: #efe4d2;
+  --page-ink: #172126;
+  --page-muted: #5d6764;
+  --line: rgba(23, 33, 38, 0.12);
+  --surface: rgba(255, 252, 246, 0.78);
+  --surface-strong: rgba(255, 250, 240, 0.94);
+  --surface-dark: #11181d;
+  --surface-dark-soft: rgba(17, 24, 29, 0.78);
+  --accent: #d56c3d;
+  --accent-strong: #ab4d25;
+  --success: #1c8f63;
+  --warning: #b96e1d;
+  --shadow-lg: 0 24px 80px rgba(42, 47, 51, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background:
+    radial-gradient(circle at top left, rgba(213, 108, 61, 0.18), transparent 28%),
+    radial-gradient(circle at top right, rgba(28, 143, 99, 0.14), transparent 24%),
+    linear-gradient(180deg, var(--page-bg-strong) 0%, var(--page-bg) 100%);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--page-ink);
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  background: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgba(213, 108, 61, 0.22);
+}
+
 ::-webkit-scrollbar {
-    width: 8px; /* Adjust the width of the scrollbar */
-    height: 8px; /* Adjust the height of the scrollbar */
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(23, 33, 38, 0.24);
+  border-radius: 999px;
+}
+
+@layer components {
+  .page-shell {
+    @apply relative min-h-screen overflow-hidden;
   }
-  
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: rgba(169, 169, 169, 0.6); /* Adjust the color of the scrollbar handle */
-    border-radius: 4px; /* Adjust the border radius of the scrollbar handle */
+
+  .page-shell::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(23, 33, 38, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(23, 33, 38, 0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.65), transparent 92%);
+    pointer-events: none;
   }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(105, 105, 105, 0.6); /* Adjust the color of the scrollbar handle on hover */
+
+  .page-inner {
+    @apply relative mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8;
   }
-  .menu-enter {
-    transform: scaleY(0);
+
+  .surface-card {
+    @apply rounded-[28px] border border-[color:var(--line)] backdrop-blur-xl;
+    background: var(--surface);
+    box-shadow: var(--shadow-lg);
   }
-  .menu-enter-active {
-    transform: scaleY(1);
-    transition: transform 300ms;
+
+  .surface-card-strong {
+    @apply rounded-[28px] border border-[color:var(--line)] backdrop-blur-xl;
+    background: var(--surface-strong);
+    box-shadow: var(--shadow-lg);
   }
-  .menu-exit {
-    transform: scaleY(1);
+
+  .surface-card-dark {
+    @apply rounded-[28px] border border-white/10 text-white backdrop-blur-xl;
+    background:
+      linear-gradient(160deg, rgba(213, 108, 61, 0.12), transparent 40%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 40%),
+      var(--surface-dark-soft);
+    box-shadow: 0 28px 100px rgba(10, 15, 18, 0.34);
   }
-  .menu-exit-active {
-    transform: scaleY(0);
-    transition: transform 300ms;
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em];
+    border-color: rgba(23, 33, 38, 0.12);
+    color: var(--page-muted);
+    background: rgba(255, 255, 255, 0.42);
   }
-  
+
+  .headline {
+    font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+    @apply text-4xl font-semibold tracking-tight sm:text-5xl;
+    text-wrap: balance;
+  }
+
+  .subhead {
+    @apply text-base leading-7 sm:text-lg;
+    color: var(--page-muted);
+  }
+
+  .action-button {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition;
+  }
+
+  .action-button-primary {
+    @apply action-button text-white;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+    box-shadow: 0 18px 40px rgba(171, 77, 37, 0.28);
+  }
+
+  .action-button-primary:hover {
+    transform: translateY(-1px);
+  }
+
+  .action-button-secondary {
+    @apply action-button border border-[color:var(--line)];
+    background: rgba(255, 255, 255, 0.58);
+  }
+
+  .workspace-grid {
+    @apply grid min-h-screen grid-cols-1 gap-4 px-4 py-4 lg:grid-cols-[280px_minmax(0,1fr)] lg:px-5;
+  }
+
+  .workspace-sidebar {
+    @apply surface-card-dark sticky top-4 h-fit p-5;
+  }
+
+  .workspace-main {
+    @apply flex min-w-0 flex-col gap-4;
+  }
+
+  .nav-link {
+    @apply flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition;
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .nav-link:hover {
+    @apply text-white;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .nav-link-active {
+    @apply bg-white text-slate-900;
+  }
+
+  .status-chip {
+    @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold;
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--page-ink);
+  }
+
+  .metric-value {
+    font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+    @apply text-3xl font-semibold tracking-tight;
+  }
+
+  .data-table {
+    @apply w-full min-w-[520px] border-separate border-spacing-0;
+  }
+
+  .data-table th {
+    @apply px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.18em];
+    color: var(--page-muted);
+  }
+
+  .data-table td {
+    @apply border-t border-[color:var(--line)] px-4 py-4 text-sm align-top;
+  }
+
+  .field-input {
+    @apply w-full rounded-2xl border border-[color:var(--line)] px-4 py-3 outline-none transition;
+    background: rgba(255, 255, 255, 0.75);
+  }
+
+  .field-input:focus {
+    border-color: rgba(213, 108, 61, 0.48);
+    box-shadow: 0 0 0 4px rgba(213, 108, 61, 0.12);
+  }
+}

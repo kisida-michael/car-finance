@@ -8,10 +8,18 @@
 - [x] Produce a decision-complete refactor plan tied to the current branch.
 - [x] Confirm the proposed plan before implementation work starts.
 - [x] Scaffold the initial `api` service with Express, Better Auth, Drizzle, PostgreSQL config, and base routes.
-- [ ] Scaffold `web` and `api` responsibilities for the new architecture.
+- [x] Scaffold `web` and `api` responsibilities for the new architecture.
 - [ ] Replace Firebase auth/data access with Better Auth + Express + Drizzle + PostgreSQL.
 - [ ] Rebuild the admin and customer UI in shadcn with server-backed route/session guards.
 - [ ] Build and validate the Firebase-to-PostgreSQL migration and cutover path.
+
+## Frontend Rebuild Worktree Plan
+
+- [x] Read the current frontend entry points, layout components, store, and styling baseline.
+- [x] Replace the broken Firebase-era route tree with a nested React Router application shell.
+- [x] Add a frontend session bootstrap and API client boundary that targets the new Express backend.
+- [x] Rebuild the first-pass public, customer, and admin surfaces with shared shell components and placeholder server states.
+- [x] Validate the rebuilt frontend with a production build and document remaining backend-dependent gaps.
 
 ## Branch Findings
 
@@ -217,3 +225,11 @@ Recommended mapping choices:
 - Added initial normalized business schema tables for customers, leads, invoices, financing terms, documents, staff roles, Stripe linkage, and audit logging.
 - Added root convenience scripts for the new backend and verified the scaffold with `npm run typecheck` and `npm run build` in `api/`.
 - Smoke-tested API startup with local env overrides and confirmed the Express service boots successfully.
+- Replaced the legacy Firebase-driven `src/App.jsx` route composition with a nested router scaffold under `src/app/` for public, customer, and admin route families.
+- Added a frontend session provider and API helper that bootstrap from `/api/session`, expose role-aware protected routes, and support mock preview mode for UI work while backend auth is still landing.
+- Rebuilt the first-pass landing, application, customer, and admin surfaces into shared shell/page components with compatibility redirects for legacy URLs such as `/auto-loan`, `/application`, `/user/*`, and `/admin/dash`.
+- Installed frontend dependencies with `npm ci` in this worktree and verified the new scaffold with a successful `npm run build`.
+- Remaining backend-dependent gaps:
+  - sign-in/sign-out actions are not wired because the backend auth contract is still in progress
+  - route guards currently depend on role/session fields that must be exposed by `/api/session`
+  - page data is placeholder/UI-shape data until customer, lead, invoice, and billing endpoints land
