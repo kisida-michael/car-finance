@@ -1,11 +1,14 @@
 import cors from "cors";
-import { fromNodeHeaders, toNodeHandler } from "better-auth/node";
+import { toNodeHandler } from "better-auth/node";
 import { sql } from "drizzle-orm";
 import express from "express";
 
 import { auth } from "./auth.js";
+import { requireAdminRole } from "./authorization.js";
 import { db } from "./db/index.js";
 import { env, webOrigins } from "./env.js";
+import { getActiveRolesForUserId } from "./authorization.js";
+import { getRequestSession, requireSession } from "./session.js";
 
 export function createApp() {
   const app = express();
@@ -34,9 +37,7 @@ export function createApp() {
   });
 
   app.get("/api/session", async (req, res) => {
-    const session = await auth.api.getSession({
-      headers: fromNodeHeaders(req.headers),
-    });
+    const session = await getRequestSession(req);
 
     res.status(200).json(
       session ?? {
@@ -44,6 +45,17 @@ export function createApp() {
         user: null,
       },
     );
+  });
+
+  app.get("/api/me", requireSession, (req, res) => {
+    res.status(200).json(res.locals.session);
+  });
+
+  app.get("/api/admin/me", requireAdminRole(), async (req, res) => {
+    res.status(200).json({
+      ...res.locals.session,
+      roles: res.locals.roles ?? (await getActiveRolesForUserId(res.locals.session.user.id)),
+    });
   });
 
   return app;

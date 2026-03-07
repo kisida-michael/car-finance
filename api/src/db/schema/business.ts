@@ -7,8 +7,11 @@ import {
   pgTable,
   text,
   timestamp,
+  uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
+
+import { user } from "./auth.js";
 
 const auditColumns = {
   createdAt: timestamp("created_at", { withTimezone: true })
@@ -43,7 +46,9 @@ export const invoiceTypeEnum = pgEnum("invoice_type", [
 
 export const customers = pgTable("customers", {
   id: uuid("id").defaultRandom().primaryKey(),
-  userId: text("user_id"),
+  userId: text("user_id").references(() => user.id, {
+    onDelete: "set null",
+  }),
   legacyCustomerId: text("legacy_customer_id").unique(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
@@ -203,14 +208,20 @@ export const stripeCustomers = pgTable("stripe_customers", {
   ...auditColumns,
 });
 
-export const staffRoles = pgTable("staff_roles", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: text("user_id").notNull(),
-  role: roleEnum("role").notNull(),
-  isActive: boolean("is_active").default(true).notNull(),
-  metadata: jsonb("metadata").$type<Record<string, unknown>>().default({}),
-  ...auditColumns,
-});
+export const staffRoles = pgTable(
+  "staff_roles",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    role: roleEnum("role").notNull(),
+    isActive: boolean("is_active").default(true).notNull(),
+    metadata: jsonb("metadata").$type<Record<string, unknown>>().default({}),
+    ...auditColumns,
+  },
+  (table) => [uniqueIndex("staff_roles_user_role_unique").on(table.userId, table.role)],
+);
 
 export const auditLog = pgTable("audit_log", {
   id: uuid("id").defaultRandom().primaryKey(),

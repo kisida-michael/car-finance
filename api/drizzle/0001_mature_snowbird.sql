@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "staff_roles_user_role_unique" ON "staff_roles" USING btree ("user_id","role");

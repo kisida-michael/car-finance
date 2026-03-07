@@ -8,9 +8,12 @@
 - [x] Produce a decision-complete refactor plan tied to the current branch.
 - [x] Confirm the proposed plan before implementation work starts.
 - [x] Scaffold the initial `api` service with Express, Better Auth, Drizzle, PostgreSQL config, and base routes.
-- [ ] Scaffold `web` and `api` responsibilities for the new architecture.
+- [x] Generate Better Auth Drizzle schema and the first combined SQL migration.
+- [x] Add a protected backend session bootstrap endpoint for the frontend.
+- [x] Add local PostgreSQL runtime support for the backend and apply the first migration.
+- [x] Add backend-only bootstrap flow for the initial admin user and role assignment.
+- [x] Build backend auth/session endpoints and role-aware guards.
 - [ ] Replace Firebase auth/data access with Better Auth + Express + Drizzle + PostgreSQL.
-- [ ] Rebuild the admin and customer UI in shadcn with server-backed route/session guards.
 - [ ] Build and validate the Firebase-to-PostgreSQL migration and cutover path.
 
 ## Branch Findings
@@ -217,3 +220,8 @@ Recommended mapping choices:
 - Added initial normalized business schema tables for customers, leads, invoices, financing terms, documents, staff roles, Stripe linkage, and audit logging.
 - Added root convenience scripts for the new backend and verified the scaffold with `npm run typecheck` and `npm run build` in `api/`.
 - Smoke-tested API startup with local env overrides and confirmed the Express service boots successfully.
+- Generated Better Auth Drizzle tables into `api/src/db/schema/auth.ts` and the first SQL migration in `api/drizzle/0000_magical_dazzler.sql`.
+- Added reusable session helpers plus a protected `/api/me` endpoint, and verified it returns `401 Unauthorized` without a session.
+- Added Docker-based local PostgreSQL runtime support, started the container successfully, and applied the generated Drizzle migrations to a real database.
+- Added an idempotent backend bootstrap-admin CLI that creates the Better Auth user and assigns the initial app role in `staff_roles`.
+- Added role lookup and admin guard middleware, then verified end-to-end auth by signing in through `/api/auth/sign-in/email` and reading `/api/admin/me` with an authenticated owner session.
